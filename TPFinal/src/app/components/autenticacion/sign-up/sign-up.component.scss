@@ -1,0 +1,18 @@
+
+:host {
+    background-color: gainsboro;
+    height: 100%;
+    display: block;
+}
+
+.textCenter{
+    text-align: center;
+}
+
+.activeEsp{
+    background-color: var(--primary);
+}
+
+.activePac{
+    background-color: var(--primary);
+}

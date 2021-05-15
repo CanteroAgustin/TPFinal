@@ -1,0 +1,90 @@
+<div class="container p-5">
+    <div class="card w-50">
+        <form [formGroup]="registerForm" class="p-5">
+            <h2 class="text-center pb-3">REGISTRO</h2>
+            <div class="btn-group mb-3">
+                <a class="btn btn-secondary" [ngClass]="activeEsp" (click)="setEspecialista()">Especialista</a>
+                <a class="btn btn-secondary" [ngClass]="activePac" (click)="setPaciente()">Paciente</a>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" type="text" class="form-control" formControlName="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input id="apellido" type="text" class="form-control" formControlName="apellido" required>
+            </div>
+            <div class="form-group">
+                <label for="edad">Edad</label>
+                <input id="edad" type="number" class="form-control" formControlName="edad" required>
+            </div>
+            <div class="form-group">
+                <label for="dni">DNI</label>
+                <input id="dni" type="number" class="form-control" formControlName="dni" required>
+            </div>
+            <div *ngIf='tipo.value === "especialista"'>
+                <label for="Especialidad" class="form-label">Especialidad</label>
+                <input class="form-control" list="datalistOptions" id="Especialidad" placeholder="Buscar..." formControlName='especialidades'>
+                <datalist id="datalistOptions">
+                    <option value="Anestesiología">
+                    <option value="Anatomía Patológica">
+                    <option value="Cardiología">
+                    <option value="Cardiología Intervencionista">
+                    <option value="Cirugía Pediátrica">
+                    <option value="Cirugía General">
+                    <option value="Cirugía Plástica y Reconstructiva">
+                    <option value="Angiología y Cirugía Vascular">
+                    <option value="Dermatología">
+                    <option value="Endoscopia">
+                    <option value="Gastroenterología">
+                    <option value="Ginegología y Obstetricia">
+                    <option value="Hematología">
+                    <option value="Infectología">
+                    <option value="Nefrología">
+                    <option value="Neurología">
+                    <option value="Neumología">
+                    <option value="Oftalmología">
+                    <option value="Ortopedia">
+                    <option value="Otorrinolaringología">
+                    <option value="Pediatría">
+                    <option value="Psiquiatría">
+                    <option value="Radiología e Imagen">
+                    <option value="Urología">
+                    <option value="Neumología">
+                    <option value="Hematología">
+                    <option value="Oncología Médica">
+                    <option value="Radio-Oncología">
+                    <option value="Oncología Pediátrica">
+                </datalist>
+            </div>
+
+            <div class="form-group" *ngIf='tipo.value === "paciente"'>
+                <label for="obraSocial">Obra Social</label>
+                <input id="obraSocial" type="text" class="form-control" formControlName="obraSocial" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" class="form-control" formControlName="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" class="form-control" formControlName="password" required>
+            </div>
+            <div class="mb-3 mt-1">
+                <label for="perfil1" class="form-label">Imagen de Perfil {{img1}}</label>
+                <input class="form-control" type="file" id="perfil1" formControlName='perfil1'>
+            </div>
+            <div class="mb-3" *ngIf='tipo.value === "paciente"'>
+                <label for="perfil2" class="form-label">Imagen de Perfil {{img2}}</label>
+                <input class="form-control" type="file" id="perfil2" formControlName='perfil2'>
+            </div>
+            <div class="form-group">
+                <button class="w-100 mt-3 btn btn-primary" type="button" [disabled]="!registerForm.valid"
+                    (click)="authService.SignUp(registerForm.value)">Registrarme</button>
+                <div class="mt-1">
+                    <a routerLink="/forgot-password">¿Ya tenes una cuenta?</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

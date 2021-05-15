@@ -1,0 +1,36 @@
+<div class="text'center">
+    <main class="form-signin">
+        <h2 style="text-align: center;">LOGIN</h2>
+        <form [formGroup]="loginForm">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Username" #userName
+                    formControlName="email" required>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" #userPassword
+                    formControlName="password" required>
+            </div>
+            <div>
+                <!-- <button class="w-50 btn btn-primary" type="button" [disabled]="!loginForm.valid"
+                    (click)="authService.SignIn(userName.value, userPassword.value)">Ingresar</button> -->
+                <button class="w-50 btn btn-primary" type="button" [disabled]="!loginForm.valid"
+                    (click)="loginMock(userName.value, userPassword.value)">Ingresar</button>
+                <button class="w-50 btn btn-danger" type="button" (click)="mockUser()">Mock User</button>
+            </div>
+
+
+            <!-- <h3 style="text-align: center;">O</h3>
+            <a class="w-100 btn btn-outline-secondary" (click)="authService.GoogleAuth()" role="button">
+                <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                <span>Login with Google</span>
+            </a> -->
+        </form>
+        <div class="forgotPassword">
+            <a routerLink="/forgot-password">¿Perdiste tu contraseña?</a>
+        </div>
+        <div class="redirectToLogin">
+            <span>¿Aun no tenes cuenta?<a class="redirect" routerLink="/sign-up"> Registrate</a></span>
+        </div>
+    </main>
+</div>
