@@ -8,75 +8,145 @@
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input id="nombre" type="text" class="form-control" formControlName="nombre" required>
+                <input id="nombre" type="text" class="form-control" formControlName="nombreControl">
+                <div *ngIf="nombreControl.invalid && (nombreControl.dirty || nombreControl.touched)" class="alert alert-danger">
+                    <div *ngIf="nombreControl.errors.required">
+                        Debe ingresar su nombre.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="apellido">Apellido</label>
-                <input id="apellido" type="text" class="form-control" formControlName="apellido" required>
+                <input id="apellido" type="text" class="form-control" formControlName="apellidoControl">
+                <div *ngIf="apellidoControl.invalid && (apellidoControl.dirty || apellidoControl.touched)" class="alert alert-danger">
+                    <div *ngIf="apellidoControl.errors.required">
+                        Debe ingresar su apellido.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="edad">Edad</label>
-                <input id="edad" type="number" class="form-control" formControlName="edad" required>
+                <input id="edad" type="number" class="form-control" formControlName="edadControl">
+                <div *ngIf="edadControl.invalid && (edadControl.dirty || edadControl.touched)" class="alert alert-danger">
+                    <div *ngIf="edadControl.errors.required">
+                        Debe ingresar su edad.
+                    </div>
+                    <div *ngIf="edadControl.errors.min || edadControl.errors.max">
+                        La edad debe estar entre 1 y 99 anos.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="dni">DNI</label>
-                <input id="dni" type="number" class="form-control" formControlName="dni" required>
+                <input id="dni" type="text" class="form-control" formControlName="dniControl" maxlength="8">
+                <div *ngIf="dniControl.invalid && (dniControl.dirty || dniControl.touched)" class="alert alert-danger">
+                    <div *ngIf="dniControl.errors.required">
+                        Debe ingresar su dni.
+                    </div>
+                    <div *ngIf="dniControl.errors.pattern">
+                        Ingrese un dni valido (8 digitos y solo numeros).
+                    </div>
+                </div>
             </div>
-            <div *ngIf='tipo.value === "especialista"'>
+            
+            <div *ngIf='tipoControl.value === "especialista"'>
                 <label for="Especialidad" class="form-label">Especialidad</label>
-                <input class="form-control" list="datalistOptions" id="Especialidad" placeholder="Buscar..." formControlName='especialidades'>
+                <input class="form-control" list="datalistOptions" id="Especialidad" placeholder="Buscar..."
+                    formControlName='especialidadesControl'>
                 <datalist id="datalistOptions">
-                    <option value="Anestesiología">
-                    <option value="Anatomía Patológica">
-                    <option value="Cardiología">
-                    <option value="Cardiología Intervencionista">
-                    <option value="Cirugía Pediátrica">
-                    <option value="Cirugía General">
-                    <option value="Cirugía Plástica y Reconstructiva">
-                    <option value="Angiología y Cirugía Vascular">
-                    <option value="Dermatología">
+                    <option value="Anestesiologia">
+                    <option value="Anatomia Patologica">
+                    <option value="Cardiologia">
+                    <option value="Cardiologia Intervencionista">
+                    <option value="Cirugia Pediatrica">
+                    <option value="Cirugia General">
+                    <option value="Cirugia Plástica y Reconstructiva">
+                    <option value="Angiologia y Cirugia Vascular">
+                    <option value="Dermatologia">
                     <option value="Endoscopia">
-                    <option value="Gastroenterología">
-                    <option value="Ginegología y Obstetricia">
-                    <option value="Hematología">
-                    <option value="Infectología">
-                    <option value="Nefrología">
-                    <option value="Neurología">
-                    <option value="Neumología">
-                    <option value="Oftalmología">
+                    <option value="Gastroenterologia">
+                    <option value="Ginegologia y Obstetricia">
+                    <option value="Hematologia">
+                    <option value="Infectologia">
+                    <option value="Nefrologia">
+                    <option value="Neurologia">
+                    <option value="Neumologia">
+                    <option value="Oftalmologia">
                     <option value="Ortopedia">
-                    <option value="Otorrinolaringología">
-                    <option value="Pediatría">
-                    <option value="Psiquiatría">
-                    <option value="Radiología e Imagen">
-                    <option value="Urología">
+                    <option value="Otorrinolaringologia">
+                    <option value="Pediatria">
+                    <option value="Psiquiatria">
+                    <option value="Radiologia e Imagen">
+                    <option value="Urologia">
                     <option value="Neumología">
-                    <option value="Hematología">
-                    <option value="Oncología Médica">
-                    <option value="Radio-Oncología">
-                    <option value="Oncología Pediátrica">
+                    <option value="Hematologia">
+                    <option value="Oncologia Medica">
+                    <option value="Radio-Oncologia">
+                    <option value="Oncologia Pediatrica">
                 </datalist>
+                <div *ngIf="especialidadesControl.invalid && (especialidadesControl.dirty || especialidadesControl.touched)" class="alert alert-danger">
+                    <div *ngIf="especialidadesControl.errors.required">
+                        Debe ingresar una especialidad, puede elegir una de la lista o agregar una nueva.
+                    </div>
+                    <div *ngIf="especialidadesControl.errors.pattern">
+                        Ingrese una especialidad (solo letras).
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group" *ngIf='tipo.value === "paciente"'>
+            <div class="form-group" *ngIf='tipoControl.value === "paciente"'>
                 <label for="obraSocial">Obra Social</label>
-                <input id="obraSocial" type="text" class="form-control" formControlName="obraSocial" required>
+                <input id="obraSocial" type="text" class="form-control" formControlName="obraSocialControl">
+                <div *ngIf="obraSocialControl.invalid && (obraSocialControl.dirty || obraSocialControl.touched)" class="alert alert-danger">
+                    <div *ngIf="obraSocialControl.errors.required">
+                        Debe ingresar una obra social.
+                    </div>
+                    <div *ngIf="obraSocialControl.errors.pattern">
+                        Ingrese el nombre de la obra social (solo letras y espacios).
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input id="email" type="email" class="form-control" formControlName="email" required>
+                <input id="email" type="email" class="form-control" formControlName="emailControl">
+                <div *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)" class="alert alert-danger">
+                    <div *ngIf="emailControl.errors.required">
+                        Debe ingresar un email.
+                    </div>
+                    <div *ngIf="emailControl.errors.pattern">
+                        Ingrese un formato de email valido (por ej: someone@example.com).
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" type="password" class="form-control" formControlName="password" required>
+                <input id="password" type="password" class="form-control" formControlName="passwordControl">
+                <div *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)" class="alert alert-danger">
+                    <div *ngIf="passwordControl.errors.required">
+                        Debe ingresar una contraseña.
+                    </div>
+                    <div *ngIf="passwordControl.errors.password">
+                        La contraseña debe ser alfanumerica y contener entre 4 y 8 caracteres.
+                    </div>
+                </div>
             </div>
             <div class="mb-3 mt-1">
                 <label for="perfil1" class="form-label">Imagen de Perfil {{img1}}</label>
-                <input class="form-control" type="file" id="perfil1" formControlName='perfil1'>
+                <input class="form-control" type="file" id="perfil1" formControlName='perfil1Control'>
+                <div *ngIf="perfil1Control.invalid && (perfil1Control.dirty || perfil1Control.touched)" class="alert alert-danger">
+                    <div *ngIf="perfil1Control.errors.required">
+                        Debe ingresar una imagen de perfil.
+                    </div>
+                </div>
             </div>
-            <div class="mb-3" *ngIf='tipo.value === "paciente"'>
+            <div class="mb-3" *ngIf='tipoControl.value === "paciente"'>
                 <label for="perfil2" class="form-label">Imagen de Perfil {{img2}}</label>
-                <input class="form-control" type="file" id="perfil2" formControlName='perfil2'>
+                <input class="form-control" type="file" id="perfil2" formControlName='perfil2Control'>
+                <div *ngIf="perfil2Control.invalid && (perfil2Control.dirty || perfil2Control.touched)" class="alert alert-danger">
+                    <div *ngIf="perfil2Control.errors.required">
+                        Debe ingresar una imagen de perfil.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <button class="w-100 mt-3 btn btn-primary" type="button" [disabled]="!registerForm.valid"
