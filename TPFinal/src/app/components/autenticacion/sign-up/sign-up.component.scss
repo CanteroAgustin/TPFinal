@@ -1,23 +1,22 @@
-
-:host {
-    background-color: gainsboro;
-    height: 100%;
-    display: block;
-}
-
-.textCenter{
+.textCenter {
     text-align: center;
 }
 
-.activeEsp{
+.activeEsp {
     background-color: var(--primary);
 }
 
-.activePac{
+.activePac {
     background-color: var(--primary);
 }
 
 .alert {
-    padding-top: 0 ;
+    padding-top: 0;
     padding-bottom: 0;
-  }
+}
+
+.card {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+}

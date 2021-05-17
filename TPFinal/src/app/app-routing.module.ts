@@ -8,7 +8,7 @@ import { BienvenidaComponent } from './components/bienvenida/bienvenida.componen
 import { PageNoTFoundComponent } from './components/page-no-tfound/page-no-tfound.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/bienvenida', pathMatch: 'full' },
+  { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
   { path: 'bienvenida', component: BienvenidaComponent },
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },

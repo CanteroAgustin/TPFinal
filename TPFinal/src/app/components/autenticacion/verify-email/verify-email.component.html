@@ -1,19 +1,12 @@
-<div class="displayTable">
-    <div class="displayTableCell">
+<div class="container p-5">
+    <div class="card">
+        <h3>Gracias por registrarte</h3>
 
-        <div class="authBlock">
-            <h3>Gracias por registrarte</h3>
-
-            <div class="marginTop2" *ngIf="authService.userState as user">
-                <p class="text-center">Te enviamos un email de verificacion a <strong>{{user.email}}</strong>.</p>
-            </div>
-
-            <div>
-                <button class="marginTop2" color="primary"
-                    (click)="authService.SendVerificationMail()">Reenviar</button>
-            </div>
+        <div *ngIf="authService.userState as user">
+            <p class="text-center">Te enviamos un email de verificacion a <strong>{{user.email}}</strong>.</p>
         </div>
-
-
+        <div>
+            <button (click)="authService.SendVerificationMail()">Reenviar</button>
+        </div>
     </div>
 </div>
