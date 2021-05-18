@@ -14,7 +14,7 @@ import { SignUpComponent } from './components/autenticacion/sign-up/sign-up.comp
 import { ForgotPasswordComponent } from './components/autenticacion/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './components/autenticacion/verify-email/verify-email.component';
 import { SignInComponent } from './components/autenticacion/sign-in/sign-in.component';
-import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
@@ -26,8 +26,7 @@ import { BienvenidaComponent } from './components/bienvenida/bienvenida.componen
     ForgotPasswordComponent,
     VerifyEmailComponent,
     PageNoTFoundComponent,
-    BienvenidaComponent,
-    BienvenidaComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@
             </div>
             <div class="form-group">
                 <button class="form-control w-100 btn btn-primary" type="button" [disabled]="!loginForm.valid"
-                    (click)="loginMock(userName.value, userPassword.value)">Ingresar</button>
+                    (click)="authService.SignIn(userName.value, userPassword.value)">Ingresar</button>
             </div>
             <div class="form-group">
                 <button class="form-control w-100 btn btn-danger" type="button" (click)="mockUser()">Mock User</button>

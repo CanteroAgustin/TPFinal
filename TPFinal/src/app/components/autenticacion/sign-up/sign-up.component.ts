@@ -22,7 +22,7 @@ export class SignUpComponent implements OnInit {
   obraSocialControl = new FormControl(undefined, [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
   emailControl = new FormControl('', [Validators.required, Validators.pattern("([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}")]);
   passwordControl = new FormControl('', [Validators.required, this.passwordValidator()]);
-  especialidadesControl = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
+  especialidadesControl = new FormControl(undefined, [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
   perfil1Control = new FormControl(undefined, Validators.required);
   perfil2Control = new FormControl(undefined, Validators.required);
 
@@ -85,7 +85,7 @@ export class SignUpComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const alphaNumericRegex = new RegExp('[a-zA-Z\s0-9]+');
       const isAlphanumeric = alphaNumericRegex.test(control.value);
-      const isValidLength = control.value.length > 3 && control.value.length < 9;
+      const isValidLength = control.value.length > 6 && control.value.length < 9;
       if (control.value.length === 0) { return null };
       return (!isValidLength || !isAlphanumeric) ? { 'password': { value: control.value } } : null;
     };

@@ -3,13 +3,23 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import * as firebase from 'firebase/app';
+import { User as UserSistema } from 'src/app/models/user';
+import { FirestoreService } from './firestore.service';
 
 export interface User {
   uid: string;
   email: string;
-  displayName: string;
-  photoURL: string;
   emailVerified: boolean;
+  nombre: string;
+  apellido: string,
+  edad: string,
+  dni: string,
+  especialidad: string,
+  obraSocial: string,
+  password: string,
+  perfil1: string,
+  perfil2: string,
+  tipo: string
 }
 
 @Injectable({
@@ -23,7 +33,8 @@ export class AuthService {
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
     public router: Router,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    private firestoreService: FirestoreService
   ) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -38,10 +49,21 @@ export class AuthService {
   SignIn(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SetUserData(result.user || this.userState);
-        this.ngZone.run(() => {
-          this.router.navigate(['busqueda']);
-        });
+        let userCompleto;
+        this.firestoreService.getUserCompleto(result.user.uid).subscribe((doc) => {
+          if (doc.exists) {
+            userCompleto = doc.data();
+            this.SetUserData(result.user || this.userState, userCompleto);
+            this.ngZone.run(() => {
+              this.router.navigate(['home']);
+            });
+          } else {
+            console.log("No such document!");
+          }
+        }), error => {
+          console.log("Error getting document:", error);
+        };
+
       }).catch((error) => {
         console.log('Error: ' + error.message);
         //this.openSnackBar('Error: ' + error.message);
@@ -49,12 +71,22 @@ export class AuthService {
   }
 
   SignUp(form) {
-
-    console.log(form)
-    return this.afAuth.createUserWithEmailAndPassword(form.user, form.password)
+    return this.afAuth.createUserWithEmailAndPassword(form.emailControl, form.passwordControl)
       .then((result) => {
+        let userCompleto = new UserSistema;
+        userCompleto.nombre = form.nombreControl;
+        userCompleto.apellido = form.apellidoControl;
+        userCompleto.edad = form.edadControl;
+        userCompleto.dni = form.dniControl;
+        userCompleto.email = form.emailControl;
+        userCompleto.especialidad = form.especialidadesControl;
+        userCompleto.obraSocial = form.obraSocialControl;
+        userCompleto.password = form.passwordControl;
+        userCompleto.perfil1 = form.perfil1Control;
+        userCompleto.perfil2 = form.perfil2Control;
+        userCompleto.tipo = form.tipoControl;
         this.SendVerificationMail();
-        this.SetUserData(result.user || this.userState);
+        this.SetUserData(result.user || this.userState, userCompleto);
       }).catch((error) => {
         console.log('Error: ' + error.message);
         //this.openSnackBar('Error: ' + error.message);
@@ -89,31 +121,22 @@ export class AuthService {
     return (user && user.emailVerified) ? true : false;
   }
 
-  GoogleAuth() {
-    return this.AuthLogin(new firebase.default.auth.GoogleAuthProvider());
-  }
-
-  AuthLogin(provider: firebase.default.auth.AuthProvider) {
-    return this.afAuth.signInWithPopup(provider)
-      .then((result) => {
-        this.SetUserData(result.user || this.userState());
-        this.ngZone.run(() => {
-          this.router.navigate(['busqueda']);
-        })
-      }).catch((error) => {
-        console.log('Error: ' + error.message);
-        //this.openSnackBar('Error: ' + error.message);
-      })
-  }
-
-  SetUserData(user: firebase.default.User) {
+  SetUserData(user: firebase.default.User, userCompleto?) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userState: User = {
       uid: user.uid,
-      email: user.email || '',
-      displayName: user.displayName || '',
-      photoURL: user.photoURL || '',
-      emailVerified: user.emailVerified
+      email: user.email || userCompleto.email,
+      emailVerified: user.emailVerified,
+      nombre: userCompleto.nombre,
+      apellido: userCompleto.apellido,
+      edad: userCompleto.edad,
+      dni: userCompleto.dni,
+      especialidad: userCompleto.especialidad ? userCompleto.especialidad : null,
+      obraSocial: userCompleto.obraSocial ? userCompleto.obraSocial : null,
+      password: userCompleto.password,
+      perfil1: userCompleto.perfil1 ? userCompleto.perfil1 : null,
+      perfil2: userCompleto.perfil2 ? userCompleto.perfil2 : null,
+      tipo: userCompleto.tipo
     }
     localStorage.setItem('user', JSON.stringify(userState));
     return userRef.set(userState, {

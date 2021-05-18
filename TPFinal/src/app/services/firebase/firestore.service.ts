@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { User } from 'src/app/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -7,13 +8,19 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 export class FirestoreService {
 
   collection: AngularFirestoreCollection<any> | undefined;
+  collectionPathUsers = '/users'
 
   constructor(private firestore: AngularFirestore) {
 
   }
 
-  saveResutGame(datos: any, collectionPath: string) {
-    this.collection = this.firestore.collection(collectionPath);
-    return this.collection.add({ ...datos });
+  saveUser(user: User) {
+    this.collection = this.firestore.collection(this.collectionPathUsers);
+    return this.collection.add({ ...user });
+  }
+
+  getUserCompleto(uid: string) {
+    var docRef = this.firestore.collection(this.collectionPathUsers).doc(uid);
+    return docRef.get();
   }
 }

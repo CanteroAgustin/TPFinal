@@ -4,12 +4,12 @@ import { ForgotPasswordComponent } from './components/autenticacion/forgot-passw
 import { SignInComponent } from './components/autenticacion/sign-in/sign-in.component';
 import { SignUpComponent } from './components/autenticacion/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './components/autenticacion/verify-email/verify-email.component';
-import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
+import { HomeComponent } from './components/home/home.component';
 import { PageNoTFoundComponent } from './components/page-no-tfound/page-no-tfound.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
-  { path: 'bienvenida', component: BienvenidaComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },

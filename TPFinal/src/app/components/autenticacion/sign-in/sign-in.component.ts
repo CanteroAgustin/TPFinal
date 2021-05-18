@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/services/firebase/auth.service';
-import * as mockUser from '../../../usuarioMock';
 
 @Component({
   selector: 'app-sign-in',
@@ -25,13 +24,7 @@ export class SignInComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('user')) {
-      this.router.navigate(['busqueda']);
-    }
-  }
-
-  loginMock(user, pass) { //TODO Reemplazar por login real
-    if (user === mockUser.admin.email && pass === mockUser.admin.password && mockUser.admin.emailVerified){
-      console.log("paso");
+      this.router.navigate(['home']);
     }
   }
 
