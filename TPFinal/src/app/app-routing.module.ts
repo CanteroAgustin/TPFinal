@@ -6,10 +6,11 @@ import { SignUpComponent } from './components/autenticacion/sign-up/sign-up.comp
 import { VerifyEmailComponent } from './components/autenticacion/verify-email/verify-email.component';
 import { HomeComponent } from './components/home/home.component';
 import { PageNoTFoundComponent } from './components/page-no-tfound/page-no-tfound.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },

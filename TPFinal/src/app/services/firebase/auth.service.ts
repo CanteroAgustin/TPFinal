@@ -19,13 +19,13 @@ export interface User {
   password: string,
   perfil1: string,
   perfil2: string,
-  tipo: string
+  tipo: string,
+  habilitado: boolean
 }
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
   userState: any;
 
@@ -36,34 +36,44 @@ export class AuthService {
     public ngZone: NgZone,
     private firestoreService: FirestoreService
   ) {
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userState = user;
-        localStorage.setItem('user', JSON.stringify(this.userState));
-      } else {
-        localStorage.removeItem('user')
-      }
-    })
+    // this.afAuth.authState.subscribe(user => {
+    //   if (user && user.emailVerified) {
+    //     this.userState = user;
+    //     localStorage.setItem('user', JSON.stringify(this.userState));
+    //   } else {
+    //     localStorage.removeItem('user')
+    //   }
+    // })
   }
 
   SignIn(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        let userCompleto;
-        this.firestoreService.getUserCompleto(result.user.uid).subscribe((doc) => {
-          if (doc.exists) {
-            userCompleto = doc.data();
-            this.SetUserData(result.user || this.userState, userCompleto);
-            this.ngZone.run(() => {
-              this.router.navigate(['home']);
-            });
-          } else {
-            console.log("No such document!");
-          }
-        }), error => {
-          console.log("Error getting document:", error);
-        };
+        if (result.user.emailVerified) {
+          let userCompleto;
+          this.firestoreService.getUserCompleto(result.user.uid).subscribe((doc) => {
+            if (doc.exists) {
+              userCompleto = doc.data();
+              if (userCompleto && userCompleto.habilitado) {
+                this.SetUserData(result.user || this.userState, userCompleto);
+                this.ngZone.run(() => {
+                  this.router.navigate(['home']);
+                });
+              } else {
+                console.log("El usuario no esta habilitado!");
+                //TODO Manejar error
+              }
 
+            } else {
+              console.log("No se encontro el usuario!");
+            }
+          }), error => {
+            console.log("Error getting document:", error);
+          };
+        } else {
+          console.log('El email del usuario no esta verificado');
+          //EnviarMensaje de error
+        }
       }).catch((error) => {
         console.log('Error: ' + error.message);
         //this.openSnackBar('Error: ' + error.message);
@@ -85,6 +95,7 @@ export class AuthService {
         userCompleto.perfil1 = form.perfil1Control;
         userCompleto.perfil2 = form.perfil2Control;
         userCompleto.tipo = form.tipoControl;
+        userCompleto.habilitado = form.tipoControl === 'especialista' ? false : true;
         this.SendVerificationMail();
         this.SetUserData(result.user || this.userState, userCompleto);
       }).catch((error) => {
@@ -118,7 +129,7 @@ export class AuthService {
 
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user') || "{}");
-    return (user && user.emailVerified) ? true : false;
+    return (user && user.emailVerified && user.habilitado) ? true : false;
   }
 
   SetUserData(user: firebase.default.User, userCompleto?) {
@@ -136,7 +147,8 @@ export class AuthService {
       password: userCompleto.password,
       perfil1: userCompleto.perfil1 ? userCompleto.perfil1 : null,
       perfil2: userCompleto.perfil2 ? userCompleto.perfil2 : null,
-      tipo: userCompleto.tipo
+      tipo: userCompleto.tipo,
+      habilitado: userCompleto.tipo === 'especialista' ? false : true
     }
     localStorage.setItem('user', JSON.stringify(userState));
     return userRef.set(userState, {

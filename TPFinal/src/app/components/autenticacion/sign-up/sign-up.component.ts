@@ -85,7 +85,7 @@ export class SignUpComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const alphaNumericRegex = new RegExp('[a-zA-Z\s0-9]+');
       const isAlphanumeric = alphaNumericRegex.test(control.value);
-      const isValidLength = control.value.length > 6 && control.value.length < 9;
+      const isValidLength = control.value.length > 5 && control.value.length < 9;
       if (control.value.length === 0) { return null };
       return (!isValidLength || !isAlphanumeric) ? { 'password': { value: control.value } } : null;
     };

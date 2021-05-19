@@ -10,4 +10,5 @@ export class User {
     perfil1: string;
     perfil2: string;
     tipo: string
+    habilitado: boolean;
 }

@@ -14,15 +14,18 @@
                 <button class="form-control w-100 btn btn-primary" type="button" [disabled]="!loginForm.valid"
                     (click)="authService.SignIn(userName.value, userPassword.value)">Ingresar</button>
             </div>
-            <div class="form-group">
-                <button class="form-control w-100 btn btn-danger" type="button" (click)="mockUser()">Mock User</button>
+            <h5 class="text-center">-Login Mock-</h5>
+            <div class="btn-group w-100">
+                <a class="w-100 btn btn-outline-primary" (click)='setAdminMock()'>Admin</a>
+                <a class="w-100 btn btn-outline-primary" (click)='setEspecialistaMock()'>Especialista</a>
+                <a class="w-100 btn btn-outline-primary" (click)='setPacienteMock()'>Paciente</a>
             </div>
-            <div class="form-group">
+            <div class="form-group pt-3">
                 <div class="forgotPassword">
                     <a routerLink="/forgot-password">¿Perdiste tu contraseña?</a>
                 </div>
                 <div class="redirectToLogin">
-                    <span>¿Aun no tenes cuenta?<a class="redirect" routerLink="/sign-up"> Registrate</a></span>
+                    <span>¿Aun no tenes cuenta?  <a class="redirect" routerLink="/sign-up">Registrate</a></span>
                 </div>
             </div>
         </form>
