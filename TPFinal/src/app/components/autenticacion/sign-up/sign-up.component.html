@@ -2,6 +2,9 @@
     <div class="card w-50">
         <form [formGroup]="registerForm" class="p-5">
             <h2 class="text-center pb-3">REGISTRO</h2>
+            <div *ngIf='isLoading' class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
             <div class="btn-group mb-3" *ngIf="!esAdmin">
                 <a class="btn btn-secondary" [ngClass]="activeEsp" (click)="setEspecialista()">Especialista</a>
                 <a class="btn btn-secondary" [ngClass]="activePac" (click)="setPaciente()">Paciente</a>
@@ -9,7 +12,8 @@
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input id="nombre" type="text" class="form-control" formControlName="nombreControl">
-                <div *ngIf="nombreControl.invalid && (nombreControl.dirty || nombreControl.touched)" class="alert alert-danger">
+                <div *ngIf="nombreControl.invalid && (nombreControl.dirty || nombreControl.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="nombreControl.errors.required">
                         Debe ingresar su nombre.
                     </div>
@@ -18,7 +22,8 @@
             <div class="form-group">
                 <label for="apellido">Apellido</label>
                 <input id="apellido" type="text" class="form-control" formControlName="apellidoControl">
-                <div *ngIf="apellidoControl.invalid && (apellidoControl.dirty || apellidoControl.touched)" class="alert alert-danger">
+                <div *ngIf="apellidoControl.invalid && (apellidoControl.dirty || apellidoControl.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="apellidoControl.errors.required">
                         Debe ingresar su apellido.
                     </div>
@@ -27,7 +32,8 @@
             <div class="form-group">
                 <label for="edad">Edad</label>
                 <input id="edad" type="number" class="form-control" formControlName="edadControl">
-                <div *ngIf="edadControl.invalid && (edadControl.dirty || edadControl.touched)" class="alert alert-danger">
+                <div *ngIf="edadControl.invalid && (edadControl.dirty || edadControl.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="edadControl.errors.required">
                         Debe ingresar su edad.
                     </div>
@@ -48,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div *ngIf='tipoControl.value === "especialista"'>
                 <label for="Especialidad" class="form-label">Especialidad</label>
                 <input class="form-control" list="datalistOptions" id="Especialidad" placeholder="Buscar..."
@@ -84,7 +90,8 @@
                     <option value="Radio-Oncologia">
                     <option value="Oncologia Pediatrica">
                 </datalist>
-                <div *ngIf="especialidadesControl.invalid && (especialidadesControl.dirty || especialidadesControl.touched)" class="alert alert-danger">
+                <div *ngIf="especialidadesControl.invalid && (especialidadesControl.dirty || especialidadesControl.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="especialidadesControl.errors.required">
                         Debe ingresar una especialidad, puede elegir una de la lista o agregar una nueva.
                     </div>
@@ -97,7 +104,8 @@
             <div class="form-group" *ngIf='tipoControl.value === "paciente"'>
                 <label for="obraSocial">Obra Social</label>
                 <input id="obraSocial" type="text" class="form-control" formControlName="obraSocialControl">
-                <div *ngIf="obraSocialControl.invalid && (obraSocialControl.dirty || obraSocialControl.touched)" class="alert alert-danger">
+                <div *ngIf="obraSocialControl.invalid && (obraSocialControl.dirty || obraSocialControl.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="obraSocialControl.errors.required">
                         Debe ingresar una obra social.
                     </div>
@@ -109,7 +117,8 @@
             <div class="form-group">
                 <label for="email">Email</label>
                 <input id="email" type="email" class="form-control" formControlName="emailControl">
-                <div *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)" class="alert alert-danger">
+                <div *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="emailControl.errors.required">
                         Debe ingresar un email.
                     </div>
@@ -121,7 +130,8 @@
             <div class="form-group">
                 <label for="password">Password</label>
                 <input id="password" type="password" class="form-control" formControlName="passwordControl">
-                <div *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)" class="alert alert-danger">
+                <div *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="passwordControl.errors.required">
                         Debe ingresar una contraseña.
                     </div>
@@ -132,8 +142,10 @@
             </div>
             <div class="mb-3 mt-1">
                 <label for="perfil1" class="form-label">Imagen de Perfil {{img1}}</label>
-                <input class="form-control" type="file" id="perfil1" formControlName='perfil1Control' (change)="fileChanged1($event)">
-                <div *ngIf="perfil1Control.invalid && (perfil1Control.dirty || perfil1Control.touched)" class="alert alert-danger">
+                <input class="form-control" type="file" id="perfil1" formControlName='perfil1Control'
+                    (change)="fileChanged1($event)">
+                <div *ngIf="perfil1Control.invalid && (perfil1Control.dirty || perfil1Control.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="perfil1Control.errors.required">
                         Debe ingresar una imagen de perfil.
                     </div>
@@ -141,8 +153,10 @@
             </div>
             <div class="mb-3" *ngIf='tipoControl.value === "paciente"'>
                 <label for="perfil2" class="form-label">Imagen de Perfil {{img2}}</label>
-                <input class="form-control" type="file" id="perfil2" formControlName='perfil2Control' (change)="fileChanged2($event)">
-                <div *ngIf="perfil2Control.invalid && (perfil2Control.dirty || perfil2Control.touched)" class="alert alert-danger">
+                <input class="form-control" type="file" id="perfil2" formControlName='perfil2Control'
+                    (change)="fileChanged2($event)">
+                <div *ngIf="perfil2Control.invalid && (perfil2Control.dirty || perfil2Control.touched)"
+                    class="alert alert-danger">
                     <div *ngIf="perfil2Control.errors.required">
                         Debe ingresar una imagen de perfil.
                     </div>
@@ -150,7 +164,7 @@
             </div>
             <div class="form-group">
                 <button class="w-100 mt-3 btn btn-primary" type="button" [disabled]="!registerForm.valid"
-                    (click)="authService.SignUp(registerForm.value, this.file1, this.file2)">Registrarme</button>
+                    (click)="onRegistrarmeHandler()">Registrarme</button>
                 <div class="mt-1" *ngIf='!esAdmin'>
                     <a routerLink="/forgot-password">¿Ya tenes una cuenta?</a>
                 </div>

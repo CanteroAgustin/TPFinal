@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from
 import { AuthService } from 'src/app/services/firebase/auth.service';
 import firebase from 'firebase/app';
 import 'firebase/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -31,6 +32,7 @@ export class SignUpComponent implements OnInit {
   esAdmin = false;
   file1;
   file2;
+  isLoading = false;
 
   registerForm = new FormGroup({
     nombreControl: this.nombreControl,
@@ -46,12 +48,12 @@ export class SignUpComponent implements OnInit {
     perfil2Control: this.perfil2Control,
   });
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.esAdmin = this.user && this.user.tipo === 'admin' ? true : false;
-    if(this.esAdmin){
+    if (this.esAdmin) {
       this.tipoControl.patchValue('admin');
       this.especialidadesControl.setValidators(null);
     } else {
@@ -61,7 +63,7 @@ export class SignUpComponent implements OnInit {
     this.obraSocialControl.setValidators(null);
     this.perfil2Control.setValidators(null);
     this.registerForm.updateValueAndValidity();
-    
+
     this.activePac = '';
     this.img1 = '';
     this.img2 = '';
@@ -113,4 +115,11 @@ export class SignUpComponent implements OnInit {
 
   }
 
+  onRegistrarmeHandler() {
+    this.isLoading = true;
+    this.authService.SignUp(this.registerForm.value, this.file1, this.file2).then(response => {
+      this.isLoading = false;
+      this.router.navigate(['home']);
+    });
+  }
 }

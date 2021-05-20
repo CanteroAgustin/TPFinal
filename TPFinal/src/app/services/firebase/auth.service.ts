@@ -115,9 +115,9 @@ export class AuthService {
           u.sendEmailVerification()
         }
       })
-      .then(() => {
-        this.router.navigate(['email-verification']);
-      })
+      // .then(() => {
+      //   this.router.navigate(['home']);
+      // })
   }
 
   ForgotPassword(passwordResetEmail: string) {
