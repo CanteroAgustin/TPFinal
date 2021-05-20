@@ -15,6 +15,7 @@ import { ForgotPasswordComponent } from './components/autenticacion/forgot-passw
 import { VerifyEmailComponent } from './components/autenticacion/verify-email/verify-email.component';
 import { SignInComponent } from './components/autenticacion/sign-in/sign-in.component';
 import { HomeComponent } from './components/home/home.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { HomeComponent } from './components/home/home.component';
     ForgotPasswordComponent,
     VerifyEmailComponent,
     PageNoTFoundComponent,
-    HomeComponent
+    HomeComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,

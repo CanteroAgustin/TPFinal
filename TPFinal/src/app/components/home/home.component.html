@@ -8,18 +8,26 @@
                         <span class="navbar-toggler-icon"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li *ngIf='userCompleto.tipo === "admin"'><a class="dropdown-item" routerLink='/home/usuarios'>Usuarios</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link">{{userCompleto.email}}</a>
                 </li>
-                <li class="nav-item">
-                    <img [src]="userCompleto.perfil1">
+                <li class="nav-item dropdown">
+                    <a class="nav-link " href="#" id="navbarDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <li class="nav-item">
+                            <img class="perfil1 img-thumbnail rounded" [src]="perfil1">
+                        </li>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#" (click)="authService.SignOut()">Cerrar sesion</a></li>
+                    </ul>
                 </li>
+                
             </ul>
         </div>
     </div>
 </nav>
+<router-outlet></router-outlet>

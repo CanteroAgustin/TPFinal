@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { User as UserSistema } from 'src/app/models/user';
 import { FirestoreService } from './firestore.service';
 
@@ -80,9 +80,13 @@ export class AuthService {
       })
   }
 
-  SignUp(form) {
+  SignUp(form, file1, file2) {
     return this.afAuth.createUserWithEmailAndPassword(form.emailControl, form.passwordControl)
       .then((result) => {
+        const storageRef = firebase.storage().ref(`user/perfil1/${result.user.uid}-${file1.name}`);
+        storageRef.put(file1).then(snapshot => {
+          console.log(snapshot);
+        });
         let userCompleto = new UserSistema;
         userCompleto.nombre = form.nombreControl;
         userCompleto.apellido = form.apellidoControl;
@@ -92,8 +96,8 @@ export class AuthService {
         userCompleto.especialidad = form.especialidadesControl;
         userCompleto.obraSocial = form.obraSocialControl;
         userCompleto.password = form.passwordControl;
-        userCompleto.perfil1 = form.perfil1Control;
-        userCompleto.perfil2 = form.perfil2Control;
+        userCompleto.perfil1 = file1.name;
+        userCompleto.perfil2 = file2 ? file2.name : '';
         userCompleto.tipo = form.tipoControl;
         userCompleto.habilitado = form.tipoControl === 'especialista' ? false : true;
         this.SendVerificationMail();
@@ -132,7 +136,7 @@ export class AuthService {
     return (user && user.emailVerified && user.habilitado) ? true : false;
   }
 
-  SetUserData(user: firebase.default.User, userCompleto?) {
+  SetUserData(user: firebase.User, userCompleto?) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userState: User = {
       uid: user.uid,
@@ -150,7 +154,11 @@ export class AuthService {
       tipo: userCompleto.tipo,
       habilitado: userCompleto.tipo === 'especialista' ? false : true
     }
-    localStorage.setItem('user', JSON.stringify(userState));
+
+    if(userState.emailVerified){
+      localStorage.setItem('user', JSON.stringify(userState));
+    }
+    
     return userRef.set(userState, {
       merge: true
     })

@@ -2,7 +2,7 @@
     <div class="card w-50">
         <form [formGroup]="registerForm" class="p-5">
             <h2 class="text-center pb-3">REGISTRO</h2>
-            <div class="btn-group mb-3">
+            <div class="btn-group mb-3" *ngIf="!esAdmin">
                 <a class="btn btn-secondary" [ngClass]="activeEsp" (click)="setEspecialista()">Especialista</a>
                 <a class="btn btn-secondary" [ngClass]="activePac" (click)="setPaciente()">Paciente</a>
             </div>
@@ -132,7 +132,7 @@
             </div>
             <div class="mb-3 mt-1">
                 <label for="perfil1" class="form-label">Imagen de Perfil {{img1}}</label>
-                <input class="form-control" type="file" id="perfil1" formControlName='perfil1Control'>
+                <input class="form-control" type="file" id="perfil1" formControlName='perfil1Control' (change)="fileChanged1($event)">
                 <div *ngIf="perfil1Control.invalid && (perfil1Control.dirty || perfil1Control.touched)" class="alert alert-danger">
                     <div *ngIf="perfil1Control.errors.required">
                         Debe ingresar una imagen de perfil.
@@ -141,7 +141,7 @@
             </div>
             <div class="mb-3" *ngIf='tipoControl.value === "paciente"'>
                 <label for="perfil2" class="form-label">Imagen de Perfil {{img2}}</label>
-                <input class="form-control" type="file" id="perfil2" formControlName='perfil2Control'>
+                <input class="form-control" type="file" id="perfil2" formControlName='perfil2Control' (change)="fileChanged2($event)">
                 <div *ngIf="perfil2Control.invalid && (perfil2Control.dirty || perfil2Control.touched)" class="alert alert-danger">
                     <div *ngIf="perfil2Control.errors.required">
                         Debe ingresar una imagen de perfil.
@@ -150,8 +150,8 @@
             </div>
             <div class="form-group">
                 <button class="w-100 mt-3 btn btn-primary" type="button" [disabled]="!registerForm.valid"
-                    (click)="authService.SignUp(registerForm.value)">Registrarme</button>
-                <div class="mt-1">
+                    (click)="authService.SignUp(registerForm.value, this.file1, this.file2)">Registrarme</button>
+                <div class="mt-1" *ngIf='!esAdmin'>
                     <a routerLink="/forgot-password">¿Ya tenes una cuenta?</a>
                 </div>
             </div>

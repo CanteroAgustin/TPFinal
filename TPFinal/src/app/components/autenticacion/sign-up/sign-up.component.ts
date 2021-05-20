@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/firebase/auth.service';
+import firebase from 'firebase/app';
+import 'firebase/storage';
 
 @Component({
   selector: 'app-sign-up',
@@ -25,6 +27,10 @@ export class SignUpComponent implements OnInit {
   especialidadesControl = new FormControl(undefined, [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
   perfil1Control = new FormControl(undefined, Validators.required);
   perfil2Control = new FormControl(undefined, Validators.required);
+  user;
+  esAdmin = false;
+  file1;
+  file2;
 
   registerForm = new FormGroup({
     nombreControl: this.nombreControl,
@@ -43,11 +49,19 @@ export class SignUpComponent implements OnInit {
   constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
-    this.tipoControl.patchValue('especialista');
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.esAdmin = this.user && this.user.tipo === 'admin' ? true : false;
+    if(this.esAdmin){
+      this.tipoControl.patchValue('admin');
+      this.especialidadesControl.setValidators(null);
+    } else {
+      this.tipoControl.patchValue('especialista');
+      this.activeEsp = 'activeEsp';
+    }
     this.obraSocialControl.setValidators(null);
     this.perfil2Control.setValidators(null);
     this.registerForm.updateValueAndValidity();
-    this.activeEsp = 'activeEsp';
+    
     this.activePac = '';
     this.img1 = '';
     this.img2 = '';
@@ -90,4 +104,13 @@ export class SignUpComponent implements OnInit {
       return (!isValidLength || !isAlphanumeric) ? { 'password': { value: control.value } } : null;
     };
   }
+
+  fileChanged1(event) {
+    this.file1 = event.target.files[0];
+  }
+
+  fileChanged2(event) {
+
+  }
+
 }
