@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apelido</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Habilitado</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let usuario of usuarios'>
+        <td>{{usuario.nombre}}</td>
+        <td>{{usuario.apellido}}</td>
+        <td>{{usuario.tipo}}</td>
+        <td>{{usuario.habilitado ? 'si' : 'no'}}</td>
+        <td *ngIf='usuario.tipo === "especialista" && !usuario.habilitado'><button (click)="onHabilitarHandler(usuario)">Habilitar</button></td>
+      </tr>
+    </tbody>
+  </table>

@@ -16,6 +16,7 @@ import { VerifyEmailComponent } from './components/autenticacion/verify-email/ve
 import { SignInComponent } from './components/autenticacion/sign-in/sign-in.component';
 import { HomeComponent } from './components/home/home.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { TablaUsuariosComponent } from './components/tabla-usuarios/tabla-usuarios.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
     VerifyEmailComponent,
     PageNoTFoundComponent,
     HomeComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    TablaUsuariosComponent
   ],
   imports: [
     BrowserModule,

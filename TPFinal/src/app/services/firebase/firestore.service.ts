@@ -20,7 +20,18 @@ export class FirestoreService {
   }
 
   getUserCompleto(uid: string) {
-    var docRef = this.firestore.collection(this.collectionPathUsers).doc(uid);
+    let docRef = this.firestore.collection(this.collectionPathUsers).doc(uid);
     return docRef.get();
   }
+
+  getAllUsers() {
+    this.collection = this.firestore.collection(this.collectionPathUsers);
+    return this.collection;
+  }
+
+  actualizarUsuarios(id: any, datos: any): Promise<void> {
+    this.collection = this.firestore.collection(this.collectionPathUsers);
+    return this.collection.doc(id).update(datos);
+  }
+
 }

@@ -6,6 +6,7 @@ import { SignUpComponent } from './components/autenticacion/sign-up/sign-up.comp
 import { VerifyEmailComponent } from './components/autenticacion/verify-email/verify-email.component';
 import { HomeComponent } from './components/home/home.component';
 import { PageNoTFoundComponent } from './components/page-no-tfound/page-no-tfound.component';
+import { TablaUsuariosComponent } from './components/tabla-usuarios/tabla-usuarios.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -15,7 +16,7 @@ const routes: Routes = [
     path: 'home', component: HomeComponent, canActivate: [AuthGuard],
     children: [
       { path: 'usuarios', component: UsuariosComponent },
-      { path: 'registro', component: SignUpComponent }
+      { path: 'registro', component: SignUpComponent },
     ]
   },
   { path: 'sign-in', component: SignInComponent },
