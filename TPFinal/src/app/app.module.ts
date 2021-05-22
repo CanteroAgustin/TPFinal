@@ -18,6 +18,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { TablaUsuariosComponent } from './components/tabla-usuarios/tabla-usuarios.component';
 import { SortDirective } from './directives/sort.directive';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { SortDirective } from './directives/sort.directive';
     HomeComponent,
     UsuariosComponent,
     TablaUsuariosComponent,
-    SortDirective
+    SortDirective,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

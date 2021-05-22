@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/firebase/auth.service';
 export class SignInComponent implements OnInit {
 
   msgError = '';
+  isLoading = false;
 
   loginForm = new FormGroup({
     email: new FormControl(''),
@@ -75,7 +76,17 @@ export class SignInComponent implements OnInit {
     })
   }
 
-  closeAlert(){
+  closeAlert() {
     this.msgError = '';
+  }
+
+  login(user, pass) {
+    this.isLoading = true;
+    this.authService.SignIn(user, pass).then(() => {
+      this.isLoading = false;
+    }).catch(error => {
+      this.isLoading = false;
+      console.log(error);
+    });
   }
 }

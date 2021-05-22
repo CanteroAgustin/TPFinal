@@ -65,31 +65,38 @@ export class AuthService {
                 this.firestoreService.actualizarUsuarios(userCompleto.uid, userCompleto);
                 console.log("El usuario no esta habilitado!");
                 this.errorMsg.emit('Tu usuario no esta habilitado, por favor contactate con un administrador.');
+                throw new Error('Usuario no habilitado');
               }
             } else {
               console.log("No se encontro el usuario!");
+              throw new Error('Usuario no encontrado');
             }
           }), error => {
             console.log("Error getting document:", error);
+            throw new Error('Error al obtener el documento del storage');
           };
         } else {
           this.errorMsg.emit('Tu email no esta verificado, por favor revisa la bandeja de tu correo.');
+          throw new Error('Email no verificado');
         }
       }).catch((error) => {
         switch (error.code) {
           case 'auth/user-not-found':
             this.errorMsg.emit('El email ingresado no existe.');
+            throw new Error('El email ingresado no existe.');
             break;
           case 'auth/wrong-password':
             this.errorMsg.emit('La contraseña ingresada es incorrecta.');
+            throw new Error('La contraseña ingresada es incorrecta.');
             break;
           case 'auth/invalid-email':
             this.errorMsg.emit('El email ingresado tiene un formato incorrecto.');
+            throw new Error('El email ingresado tiene un formato incorrecto.');
             break;
           default:
             this.errorMsg.emit(error.message);
+            throw new Error(error.message);
         }
-        console.log('Error: ' + error.message);
       })
   }
 
@@ -124,7 +131,11 @@ export class AuthService {
         this.SendVerificationMail(userCompleto);
         this.SetUserData(result.user || this.userState, userCompleto);
       }).catch((error) => {
+        if (error.code === 'auth/email-already-in-use') {
+          this.errorMsg.emit('El email ingresado esta en uso.');
+        }
         console.log('Error: ' + error.message);
+        throw new Error(error.message);
       })
   }
 

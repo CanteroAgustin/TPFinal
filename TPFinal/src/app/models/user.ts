@@ -11,4 +11,5 @@ export class User {
     perfil2: string;
     tipo: string
     habilitado: boolean;
+    emailVerified: boolean;
 }

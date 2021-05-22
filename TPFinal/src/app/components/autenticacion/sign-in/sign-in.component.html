@@ -1,10 +1,19 @@
 <div class="container p-5">
     <div class="card">
-        <form [formGroup]="loginForm" class="p-5">
+        <form [formGroup]="loginForm" class="p-5 pt-3">
+            <div class="text-center">
+                <img class="w-25" src="./assets/logo.png" alt="">
+            </div>
+            
             <h2 class="text-center pb-3">INGRESAR</h2>
             <div *ngIf='msgError' class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{msgError}}
-                <button type="button" class="btn-close" (click)="closeAlert()" aria-label="Close"></button>
+                <button type="button" class="btn-close p-1" (click)="closeAlert()" aria-label="Close"></button>
+            </div>
+            <div class="text-center">
+                <div *ngIf='isLoading' class="spinner-border text-info" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
             <div class="form-group">
                 <input type="text" class="form-control" id="floatingInput" placeholder="Email" #userName
@@ -16,14 +25,9 @@
             </div>
             <div class="form-group">
                 <button class="form-control w-100 btn btn-primary" type="button" [disabled]="!loginForm.valid"
-                    (click)="authService.SignIn(userName.value, userPassword.value)">Ingresar</button>
+                    (click)="login(userName.value, userPassword.value)">Ingresar</button>
             </div>
             <h5 class="text-center">-Login Mock-</h5>
-            <!-- <div class="btn-group w-100">
-                <a class="w-100 btn btn-outline-primary" (click)='setAdminMock()'>Admin</a>
-                <a class="w-100 btn btn-outline-primary" (click)='setEspecialistaMock()'>Especialista</a>
-                <a class="w-100 btn btn-outline-primary" (click)='setPacienteMock()'>Paciente</a>
-            </div> -->
             <select class="form-select" formControlName='selectMock' aria-label="Mocks" (change)='setMock()'>
 
                 <option selected>Seleccione un usuario de test</option>

@@ -9,13 +9,21 @@
                 </svg>
                 Volver al login</a>
         </div>
-
-        <form [formGroup]="registerForm" class="p-5">
-
-            <h2 class="text-center pb-3">REGISTRO</h2>
-            <div *ngIf='isLoading' class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
+        <form [formGroup]="registerForm" class="p-5 pt-0">
+            <div class="text-center">
+                <img class="w-25" src="./assets/logo.png" alt="">
             </div>
+            <h2 class="text-center pb-3">REGISTRO</h2>
+            <div *ngIf='msgError' class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{msgError}}
+                <button type="button" class="btn-close p-1" (click)="closeAlert()" aria-label="Close"></button>
+            </div>
+            <div class="text-center">
+                <div *ngIf='isLoading' class="spinner-border text-info" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            
             <h4 *ngIf='!esAdmin && !isSelected' class="text-center mb-3">¿Es especialista o paciente?</h4>
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" *ngIf="!esAdmin && !isSelected">
                 <div class="col w-50">

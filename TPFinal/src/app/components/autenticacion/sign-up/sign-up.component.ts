@@ -34,6 +34,7 @@ export class SignUpComponent implements OnInit {
   file2;
   isLoading = false;
   isSelected = false;
+  msgError = '';
 
   registerForm = new FormGroup({
     nombreControl: this.nombreControl,
@@ -53,6 +54,9 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.authService.errorMsg.subscribe(msg => {
+      this.msgError = msg;
+    });
     this.esAdmin = this.user && this.user.tipo === 'admin' ? true : false;
     if (this.esAdmin) {
       this.tipoControl.patchValue('admin');
@@ -123,6 +127,13 @@ export class SignUpComponent implements OnInit {
     this.authService.SignUp(this.registerForm.value, this.file1, this.file2).then(response => {
       this.isLoading = false;
       this.router.navigate(['home']);
+    }).catch(error => {
+      console.log(error);
+      this.isLoading = false;
     });
+  }
+
+  closeAlert() {
+    this.msgError = '';
   }
 }

@@ -18,6 +18,7 @@
                 <img class="perfil1 img-thumbnail rounded" [src]="perfil1">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" routerLink='perfil'>Mi perfil</a></li>
                 <li><a class="dropdown-item" href="#" (click)="authService.SignOut()">Cerrar sesion</a></li>
             </ul>
         </div>

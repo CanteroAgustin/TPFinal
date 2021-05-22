@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
     }).catch(function (error) {
       console.log(error);
     });
-    if (this.userCompleto.tipo === 'admin') {
+    if (this.userCompleto.tipo === 'admin' && this.router.url === '/home') {
       this.router.navigate(['usuarios'], { relativeTo: this.activatedRoute })
     }
   }
