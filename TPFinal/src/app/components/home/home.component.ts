@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import firebase from 'firebase/app';
 import 'firebase/storage';
 import { AuthService } from 'src/app/services/firebase/auth.service';
@@ -14,7 +15,7 @@ export class HomeComponent implements OnInit {
   userCompleto;
   storageRef;
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
 
   ngOnInit(): void {
@@ -26,5 +27,8 @@ export class HomeComponent implements OnInit {
     }).catch(function (error) {
       console.log(error);
     });
+    if (this.userCompleto.tipo === 'admin') {
+      this.router.navigate(['usuarios'], { relativeTo: this.activatedRoute })
+    }
   }
 }

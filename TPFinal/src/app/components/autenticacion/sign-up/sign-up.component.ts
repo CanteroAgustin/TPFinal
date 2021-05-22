@@ -33,6 +33,7 @@ export class SignUpComponent implements OnInit {
   file1;
   file2;
   isLoading = false;
+  isSelected = false;
 
   registerForm = new FormGroup({
     nombreControl: this.nombreControl,
@@ -45,7 +46,7 @@ export class SignUpComponent implements OnInit {
     tipoControl: this.tipoControl,
     especialidadesControl: this.especialidadesControl,
     perfil1Control: this.perfil1Control,
-    perfil2Control: this.perfil2Control,
+    perfil2Control: this.perfil2Control
   });
 
   constructor(public authService: AuthService, private router: Router) { }
@@ -71,6 +72,7 @@ export class SignUpComponent implements OnInit {
 
 
   setEspecialista() {
+    this.isSelected = true;
     this.tipoControl.patchValue('especialista');
     this.obraSocialControl.setValidators(null);
     this.perfil2Control.setValidators(null);
@@ -84,6 +86,7 @@ export class SignUpComponent implements OnInit {
   }
 
   setPaciente() {
+    this.isSelected = true;
     this.tipoControl.patchValue('paciente');
     this.especialidadesControl.setValidators(null);
     this.obraSocialControl.setValidators([Validators.required, Validators.pattern('[a-zA-Z ]*')]);
@@ -112,7 +115,7 @@ export class SignUpComponent implements OnInit {
   }
 
   fileChanged2(event) {
-
+    this.file2 = event.target.files[0];
   }
 
   onRegistrarmeHandler() {

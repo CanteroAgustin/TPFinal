@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -17,6 +17,7 @@ import { SignInComponent } from './components/autenticacion/sign-in/sign-in.comp
 import { HomeComponent } from './components/home/home.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { TablaUsuariosComponent } from './components/tabla-usuarios/tabla-usuarios.component';
+import { SortDirective } from './directives/sort.directive';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { TablaUsuariosComponent } from './components/tabla-usuarios/tabla-usuari
     PageNoTFoundComponent,
     HomeComponent,
     UsuariosComponent,
-    TablaUsuariosComponent
+    TablaUsuariosComponent,
+    SortDirective
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { TablaUsuariosComponent } from './components/tabla-usuarios/tabla-usuari
     AngularFireAuthModule,
     AngularFirestoreModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

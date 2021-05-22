@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { EventEmitter, Injectable, NgZone, Output } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
@@ -28,6 +28,7 @@ export interface User {
 })
 export class AuthService {
   userState: any;
+  @Output() errorMsg = new EventEmitter<string>();
 
   constructor(
     public afs: AngularFirestore,
@@ -60,10 +61,11 @@ export class AuthService {
                   this.router.navigate(['home']);
                 });
               } else {
+                userCompleto.emailVerified = true;
+                this.firestoreService.actualizarUsuarios(userCompleto.uid, userCompleto);
                 console.log("El usuario no esta habilitado!");
-                //TODO Manejar error
+                this.errorMsg.emit('Tu usuario no esta habilitado, por favor contactate con un administrador.');
               }
-
             } else {
               console.log("No se encontro el usuario!");
             }
@@ -71,22 +73,41 @@ export class AuthService {
             console.log("Error getting document:", error);
           };
         } else {
-          console.log('El email del usuario no esta verificado');
-          //EnviarMensaje de error
+          this.errorMsg.emit('Tu email no esta verificado, por favor revisa la bandeja de tu correo.');
         }
       }).catch((error) => {
+        switch (error.code) {
+          case 'auth/user-not-found':
+            this.errorMsg.emit('El email ingresado no existe.');
+            break;
+          case 'auth/wrong-password':
+            this.errorMsg.emit('La contraseña ingresada es incorrecta.');
+            break;
+          case 'auth/invalid-email':
+            this.errorMsg.emit('El email ingresado tiene un formato incorrecto.');
+            break;
+          default:
+            this.errorMsg.emit(error.message);
+        }
         console.log('Error: ' + error.message);
-        //this.openSnackBar('Error: ' + error.message);
       })
   }
 
   SignUp(form, file1, file2) {
     return this.afAuth.createUserWithEmailAndPassword(form.emailControl, form.passwordControl)
       .then((result) => {
-        const storageRef = firebase.storage().ref(`user/perfil1/${result.user.uid}-${file1.name}`);
-        storageRef.put(file1).then(snapshot => {
-          console.log(snapshot);
-        });
+        if (file1) {
+          const storageRef = firebase.storage().ref(`user/perfil1/${result.user.uid}-${file1.name}`);
+          storageRef.put(file1).then(snapshot => {
+            console.log(snapshot);
+          });
+        }
+        if (file2) {
+          const storageRef2 = firebase.storage().ref(`user/perfil2/${result.user.uid}-${file2.name}`);
+          storageRef2.put(file2).then(snapshot => {
+            console.log(snapshot);
+          });
+        }
         let userCompleto = new UserSistema;
         userCompleto.nombre = form.nombreControl;
         userCompleto.apellido = form.apellidoControl;
@@ -99,25 +120,28 @@ export class AuthService {
         userCompleto.perfil1 = file1.name;
         userCompleto.perfil2 = file2 ? file2.name : '';
         userCompleto.tipo = form.tipoControl;
-        userCompleto.habilitado = form.tipoControl === 'especialista' ? false : true;
-        this.SendVerificationMail();
+        userCompleto['habilitado'] = form.tipoControl === 'especialista' ? false : true;
+        this.SendVerificationMail(userCompleto);
         this.SetUserData(result.user || this.userState, userCompleto);
       }).catch((error) => {
         console.log('Error: ' + error.message);
-        //this.openSnackBar('Error: ' + error.message);
       })
   }
 
-  SendVerificationMail() {
+  SendVerificationMail(userCompleto?) {
     return this.afAuth.currentUser
       .then(u => {
         if (u) {
           u.sendEmailVerification()
         }
       })
-      // .then(() => {
-      //   this.router.navigate(['home']);
-      // })
+      .then(() => {
+        if (userCompleto && userCompleto.tipo === 'admin') {
+          this.router.navigate(['home', 'usuarios']);
+        } else {
+          this.router.navigate(['home']);
+        }
+      })
   }
 
   ForgotPassword(passwordResetEmail: string) {
@@ -152,13 +176,13 @@ export class AuthService {
       perfil1: userCompleto.perfil1 ? userCompleto.perfil1 : null,
       perfil2: userCompleto.perfil2 ? userCompleto.perfil2 : null,
       tipo: userCompleto.tipo,
-      habilitado: userCompleto.tipo === 'especialista' ? false : true
+      habilitado: userCompleto.tipo === 'especialista' && !userCompleto.uid ? false : true
     }
 
-    if(userState.emailVerified){
+    if (userState.emailVerified) {
       localStorage.setItem('user', JSON.stringify(userState));
     }
-    
+
     return userRef.set(userState, {
       merge: true
     })

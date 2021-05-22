@@ -1,34 +1,18 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <span class="navbar-toggler-icon"></span>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li *ngIf='userCompleto.tipo === "admin"'>
-                <a class="dropdown-item" routerLink='/home/usuarios'>Usuarios</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item" *ngIf='userCompleto.tipo === "admin"'>
+              <a class="nav-link" routerLinkActive="active" aria-current="page" routerLink='/home/usuarios'>Usuarios</a>
             </li>
-        </ul>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-            <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Team</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Projects</a>
-                </li>
-            </ul> -->
-        </div>
-
-        <!-- Right elements -->
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" href="#">Pricing</a>
+            </li>
+          </ul>
         <div class="d-flex align-items-center">
-
             <h6 class="d-flex align-items-center margin-right-2">{{userCompleto.email}}</h6>
-            <!-- Avatar -->
             <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuLink"
                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img class="perfil1 img-thumbnail rounded" [src]="perfil1">

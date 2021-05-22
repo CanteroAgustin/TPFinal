@@ -2,8 +2,12 @@
     <div class="card">
         <form [formGroup]="loginForm" class="p-5">
             <h2 class="text-center pb-3">INGRESAR</h2>
+            <div *ngIf='msgError' class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{msgError}}
+                <button type="button" class="btn-close" (click)="closeAlert()" aria-label="Close"></button>
+            </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="floatingInput" placeholder="Username" #userName
+                <input type="text" class="form-control" id="floatingInput" placeholder="Email" #userName
                     formControlName="email" required>
             </div>
             <div class="form-group">
@@ -15,20 +19,29 @@
                     (click)="authService.SignIn(userName.value, userPassword.value)">Ingresar</button>
             </div>
             <h5 class="text-center">-Login Mock-</h5>
-            <div class="btn-group w-100">
+            <!-- <div class="btn-group w-100">
                 <a class="w-100 btn btn-outline-primary" (click)='setAdminMock()'>Admin</a>
                 <a class="w-100 btn btn-outline-primary" (click)='setEspecialistaMock()'>Especialista</a>
                 <a class="w-100 btn btn-outline-primary" (click)='setPacienteMock()'>Paciente</a>
-            </div>
+            </div> -->
+            <select class="form-select" formControlName='selectMock' aria-label="Mocks" (change)='setMock()'>
+
+                <option selected>Seleccione un usuario de test</option>
+                <option value="admin1">admin1</option>
+                <option value="admin2">admin2</option>
+                <option value="especialista1">especialista1</option>
+                <option value="especialista2">especialista2</option>
+                <option value="paciente1">paciente1</option>
+                <option value="paciente2">paciente2</option>
+            </select>
             <div class="form-group pt-3">
                 <div class="forgotPassword">
                     <a routerLink="/forgot-password">¿Perdiste tu contraseña?</a>
                 </div>
                 <div class="redirectToLogin">
-                    <span>¿Aun no tenes cuenta?  <a class="redirect" routerLink="/sign-up">Registrate</a></span>
+                    <span>¿Aun no tenes cuenta? <a class="redirect" routerLink="/sign-up">Registrate</a></span>
                 </div>
             </div>
         </form>
-
     </div>
 </div>

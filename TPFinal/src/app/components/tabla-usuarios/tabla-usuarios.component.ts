@@ -10,7 +10,6 @@ import { FirestoreService } from 'src/app/services/firebase/firestore.service';
 export class TablaUsuariosComponent implements OnInit {
 
   usuarios: User[] = [];
-
   constructor(private firestorService: FirestoreService) { }
 
   ngOnInit(): void {
@@ -28,7 +27,5 @@ export class TablaUsuariosComponent implements OnInit {
         });
       };
     });
-
   }
-
 }

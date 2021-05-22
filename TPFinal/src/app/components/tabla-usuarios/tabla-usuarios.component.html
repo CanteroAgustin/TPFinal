@@ -1,10 +1,39 @@
-<table class="table">
+<div class="ms-5 mx-5 table-responsive">
+
+  <table class="table table-light table-hover caption-top">
+    <caption>Lista de usuarios</caption>
     <thead>
       <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apelido</th>
-        <th scope="col">Rol</th>
-        <th scope="col">Habilitado</th>
+        <th scope="col" [appSort]="usuarios" data-order="desc" data-name="nombre">
+          Nombre
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-expand" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z"/>
+          </svg>
+        </th>
+        <th scope="col" [appSort]="usuarios" data-order="desc" data-name="apellido">
+          Apelido
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-expand" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z"/>
+          </svg>
+        </th>
+        <th scope="col" [appSort]="usuarios" data-order="desc" data-name="tipo">
+          Rol
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-expand" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z"/>
+          </svg>
+        </th>
+        <th scope="col" [appSort]="usuarios" data-order="desc" data-name="verificado">
+          Verificado
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-expand" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z"/>
+          </svg>
+        </th>
+        <th scope="col" [appSort]="usuarios" data-order="desc" data-name="habilitado">
+          Habilitado
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-expand" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z"/>
+          </svg>
+        </th>
         <th scope="col">Acciones</th>
       </tr>
     </thead>
@@ -13,8 +42,13 @@
         <td>{{usuario.nombre}}</td>
         <td>{{usuario.apellido}}</td>
         <td>{{usuario.tipo}}</td>
+        <td>{{usuario.emailVerified ? 'si' : 'no'}}</td>
         <td>{{usuario.habilitado ? 'si' : 'no'}}</td>
-        <td *ngIf='usuario.tipo === "especialista" && !usuario.habilitado'><button (click)="onHabilitarHandler(usuario)">Habilitar</button></td>
+        <td>
+          <button class="btn btn-success w-50 btn-sm" *ngIf='usuario.tipo === "especialista" && !usuario.habilitado'
+            (click)="onHabilitarHandler(usuario)">Habilitar</button>
+        </td>
       </tr>
     </tbody>
   </table>
+</div>

@@ -11,9 +11,12 @@ import { AuthService } from 'src/app/services/firebase/auth.service';
 
 export class SignInComponent implements OnInit {
 
+  msgError = '';
+
   loginForm = new FormGroup({
     email: new FormControl(''),
     password: new FormControl(''),
+    selectMock: new FormControl('')
   });
 
   constructor(
@@ -23,28 +26,56 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.errorMsg.subscribe(msg => {
+      this.msgError = msg;
+    });
+    this.loginForm.setValue({
+      email: '',
+      password: '',
+      selectMock: 'Seleccione un usuario de test'
+    });
     if (localStorage.getItem('user')) {
       this.router.navigate(['home']);
     }
   }
 
-  setAdminMock() {
-    this.loginForm.setValue({
-      email: 'agustincantero11@gmail.com',
-      password: '123456'
-    })
-  }
-  setEspecialistaMock() {
-    this.loginForm.setValue({
-      email: 'agustin7_7@yahoo.com.ar',
-      password: '1234567'
-    })
-  }
-  setPacienteMock() {
-    this.loginForm.setValue({
-      email: 'cantero.agustin@yahoo.com.ar',
-      password: '123456'
+  setMock() {
+    let opcion = this.loginForm.get('selectMock').value;
+    let emailMock = '';
+    let passMock = '';
+    switch (opcion) {
+      case 'admin1':
+        emailMock = 'agustincantero11@gmail.com';
+        passMock = '123456';
+        break;
+      case 'admin2':
+        emailMock = 'admin@test.com';
+        passMock = '123456';
+        break;
+      case 'especialista1':
+        emailMock = 'agustin7_7@yahoo.com.ar';
+        passMock = '123456';
+        break;
+      case 'especialista2':
+        emailMock = 'agustincantero271@gmail.com';
+        passMock = '123456';
+        break;
+      case 'paciente1':
+        emailMock = 'cantero.agustin@yahoo.com.ar';
+        passMock = '123456';
+        break;
+      case 'paciente2':
+        emailMock = 'paciente@test.com';
+        passMock = '123456';
+        break;
+    }
+    this.loginForm.patchValue({
+      email: emailMock,
+      password: passMock
     })
   }
 
+  closeAlert(){
+    this.msgError = '';
+  }
 }
