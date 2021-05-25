@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Turnos } from 'src/app/models/turnos';
 import { User } from 'src/app/models/user';
 
 @Injectable({
@@ -8,7 +9,8 @@ import { User } from 'src/app/models/user';
 export class FirestoreService {
 
   collection: AngularFirestoreCollection<any> | undefined;
-  collectionPathUsers = '/users'
+  collectionPathUsers = '/users';
+  collectionPathTurnos = '/turnos';
 
   constructor(private firestore: AngularFirestore) {
 
@@ -34,4 +36,13 @@ export class FirestoreService {
     return this.collection.doc(id).update(datos);
   }
 
+  saveTurno(turno: Turnos) {
+    this.collection = this.firestore.collection(this.collectionPathTurnos);
+    return this.collection.add({ ...turno });
+  }
+
+  getTurnos() {
+    this.collection = this.firestore.collection(this.collectionPathTurnos);
+    return this.collection;
+  }
 }

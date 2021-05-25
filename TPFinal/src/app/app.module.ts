@@ -19,6 +19,10 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { TablaUsuariosComponent } from './components/tabla-usuarios/tabla-usuarios.component';
 import { SortDirective } from './directives/sort.directive';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { SolicitarTurnoComponent } from './components/solicitar-turno/solicitar-turno.component';
+import { AgendaComponent } from './components/agenda/agenda.component';
+import { SolicitudTurnoResumenComponent } from './components/solicitud-turno-resumen/solicitud-turno-resumen.component';
+import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 
 
 @NgModule({
@@ -34,7 +38,11 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     UsuariosComponent,
     TablaUsuariosComponent,
     SortDirective,
-    PerfilComponent
+    PerfilComponent,
+    SolicitarTurnoComponent,
+    AgendaComponent,
+    SolicitudTurnoResumenComponent,
+    MisTurnosComponent
   ],
   imports: [
     BrowserModule,

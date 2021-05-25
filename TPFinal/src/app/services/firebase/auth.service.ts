@@ -3,6 +3,8 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import firebase from 'firebase/app';
+import { throwError } from 'rxjs';
+import { Agenda } from 'src/app/models/agenda';
 import { User as UserSistema } from 'src/app/models/user';
 import { FirestoreService } from './firestore.service';
 
@@ -20,7 +22,8 @@ export interface User {
   perfil1: string,
   perfil2: string,
   tipo: string,
-  habilitado: boolean
+  habilitado: boolean,
+  agenda: Agenda
 }
 
 @Injectable({
@@ -52,32 +55,31 @@ export class AuthService {
       .then((result) => {
         if (result.user.emailVerified) {
           let userCompleto;
-          this.firestoreService.getUserCompleto(result.user.uid).subscribe((doc) => {
-            if (doc.exists) {
-              userCompleto = doc.data();
-              if (userCompleto && userCompleto.habilitado) {
-                this.SetUserData(result.user || this.userState, userCompleto);
-                this.ngZone.run(() => {
-                  this.router.navigate(['home']);
-                });
+          this.firestoreService.getUserCompleto(result.user.uid).subscribe(
+            doc => {
+              if (doc.exists) {
+                userCompleto = doc.data();
+                if (userCompleto && userCompleto.habilitado) {
+                  this.SetUserData(result.user || this.userState, userCompleto);
+                  this.ngZone.run(() => {
+                    this.router.navigate(['home']);
+                  });
+                } else {
+                  userCompleto.emailVerified = true;
+                  this.firestoreService.actualizarUsuarios(userCompleto.uid, userCompleto);
+                  console.log("El usuario no esta habilitado!");
+                  this.errorMsg.emit('Tu usuario no esta habilitado, por favor contactate con un administrador.');
+                }
               } else {
-                userCompleto.emailVerified = true;
-                this.firestoreService.actualizarUsuarios(userCompleto.uid, userCompleto);
-                console.log("El usuario no esta habilitado!");
-                this.errorMsg.emit('Tu usuario no esta habilitado, por favor contactate con un administrador.');
-                throw new Error('Usuario no habilitado');
+                console.log("No se encontro el usuario!");
+                throw new Error('Usuario no encontrado');
               }
-            } else {
-              console.log("No se encontro el usuario!");
-              throw new Error('Usuario no encontrado');
-            }
-          }), error => {
-            console.log("Error getting document:", error);
-            throw new Error('Error al obtener el documento del storage');
-          };
+            }, error => {
+              console.log("Error getting document:", error);
+              throw new Error('Error al obtener el documento del storage');
+            });
         } else {
-          this.errorMsg.emit('Tu email no esta verificado, por favor revisa la bandeja de tu correo.');
-          throw new Error('Email no verificado');
+          throw new Error('Tu email no esta verificado, por favor revisa la bandeja de tu correo.');
         }
       }).catch((error) => {
         switch (error.code) {
@@ -187,7 +189,8 @@ export class AuthService {
       perfil1: userCompleto.perfil1 ? userCompleto.perfil1 : null,
       perfil2: userCompleto.perfil2 ? userCompleto.perfil2 : null,
       tipo: userCompleto.tipo,
-      habilitado: userCompleto.tipo === 'especialista' && !userCompleto.uid ? false : true
+      habilitado: userCompleto.tipo === 'especialista' && !userCompleto.uid ? false : true,
+      agenda: userCompleto.agenda ? JSON.parse(userCompleto.agenda) : null,
     }
 
     if (userState.emailVerified) {

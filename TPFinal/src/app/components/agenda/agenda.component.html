@@ -1,0 +1,240 @@
+<div class="container m-5">
+
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h3 class="border-bottom pb-2 mb-0">Agenda</h3>
+        <div class="row pt-3" *ngIf='!this.configurada'>
+            <h5>Aun no tiene configurada su agenda. <button class="btn btn-primary w-25 btn-sm"
+                    (click)='cargarAgenda()'>Cargar agenda</button></h5>
+        </div>
+        <div *ngIf='configurada' class="d-flex text-muted pt-3">
+            <button class="btn btn-primary btn-sm" (click)="onEditar()">Editar</button>
+        </div>
+        <div *ngIf='editar' class="text-muted pt-3">
+            <p class=" mb-2 small lh-sm border-bottom">
+                <strong class="d-block text-gray-dark">Seleccione los dias y horarios</strong>
+            </p>
+            <div class="ps-2">
+                <div class="row mb-3">
+                    <div class="col-md-1 themed-grid-col"><Strong>Lunes</Strong></div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="lunes-mañana">
+                            mañana (08:00 a 12:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="lunes-mañana" (change)='checkValue($event)' [checked]="this.agenda.dias[0]['mañana']" >
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="lunes-tarde">
+                            tarde (12:00 a 18:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="lunes-tarde"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[0]['tarde']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="lunes-noche">
+                            noche (18:00 a 20:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="lunes-noche"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[0]['noche']">
+                    </div>
+                </div>
+                <div class="row mb-3">
+
+                    <div class="col-md-1 themed-grid-col"><Strong>Martes</Strong></div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="martes-mañana">
+                            mañana (08:00 a 12:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="martes-mañana"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[1]['mañana']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="martes-tarde">
+                            tarde (12:00 a 18:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="martes-tarde"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[1]['tarde']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="martes-noche">
+                            noche (18:00 a 20:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="martes-noche"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[1]['noche']">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-1 themed-grid-col"><Strong>Miercoles</Strong></div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="miercoles-mañana">
+                            mañana (08:00 a 12:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="miercoles-mañana"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[2]['mañana']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="miercoles-tarde">
+                            tarde (12:00 a 18:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="miercoles-tarde"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[2]['tarde']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="miercoles-noche">
+                            noche (18:00 a 20:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="miercoles-noche"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[2]['noche']">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-1 themed-grid-col"><Strong>Jueves</Strong></div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="jueves-mañana">
+                            mañana (08:00 a 12:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="jueves-mañana"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[3]['mañana']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="jueves-tarde">
+                            tarde (12:00 a 18:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="jueves-tarde"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[3]['tarde']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="jueves-noche">
+                            noche (18:00 a 20:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="jueves-noche"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[3]['noche']">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-1 themed-grid-col"><Strong>Viernes</Strong></div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="viernes-mañana">
+                            mañana (08:00 a 12:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="viernes-mañana"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[4]['mañana']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="viernes-tarde">
+                            tarde (12:00 a 18:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="viernes-tarde"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[4]['tarde']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="viernes-noche">
+                            noche (18:00 a 20:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="viernes-noche"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[4]['noche']">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-1 themed-grid-col"><Strong>Sabado</Strong></div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="sabado-mañana">
+                            mañana (08:00 a 12:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="sabado-mañana"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[5]['mañana']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="sabado-tarde">
+                            tarde (12:00 a 18:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="sabado-tarde"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[5]['tarde']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="sabado-noche">
+                            noche (18:00 a 20:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="sabado-noche"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[5]['noche']">
+                    </div>
+                </div>
+                <div class="row mb-3">
+
+                    <div class="col-md-1 themed-grid-col"><Strong>Domingo</Strong></div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="domingo-mañana">
+                            mañana (08:00 a 12:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="domingo-mañana"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[6]['mañana']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="domingo-tarde">
+                            tarde (12:00 a 18:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="domingo-tarde"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[6]['tarde']">
+                    </div>
+                    <div class="col-md-3 themed-grid-col">
+                        <label class="form-check-label mx-3" for="domingo-noche">
+                            noche (18:00 a 20:00)
+                        </label>
+                        <input class="form-check-input" type="checkbox" value="" id="domingo-noche"
+                            (change)='checkValue($event)' [checked]="this.agenda.dias[6]['noche']">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-sm" (click)="guardarAgenda()">Guardar
+                configuracion</button>
+        </div>
+
+        <div *ngIf='this.configurada && !this.editar'>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Turno</th>
+                        <th scope="col">Lunes</th>
+                        <th scope="col">Martes</th>
+                        <th scope="col">Miercoles</th>
+                        <th scope="col">Jueves</th>
+                        <th scope="col">Viernes</th>
+                        <th scope="col">Sabado</th>
+                        <th scope="col">Domingo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Mañana (08:00 a 12:00)</th>
+                        <td [ngClass]="this.agenda.dias[0]['mañana']?'si':'no'">{{this.agenda.dias[0]['mañana']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[1]['mañana']?'si':'no'">{{this.agenda.dias[1]['mañana']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[2]['mañana']?'si':'no'">{{this.agenda.dias[2]['mañana']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[3]['mañana']?'si':'no'">{{this.agenda.dias[3]['mañana']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[4]['mañana']?'si':'no'">{{this.agenda.dias[4]['mañana']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[5]['mañana']?'si':'no'">{{this.agenda.dias[5]['mañana']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[6]['mañana']?'si':'no'">{{this.agenda.dias[6]['mañana']?'Si':'No'}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tarde (12:00 a 18:00)</th>
+                        <td [ngClass]="this.agenda.dias[0]['tarde']?'si':'no'">{{this.agenda.dias[0]['tarde']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[1]['tarde']?'si':'no'">{{this.agenda.dias[1]['tarde']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[2]['tarde']?'si':'no'">{{this.agenda.dias[2]['tarde']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[3]['tarde']?'si':'no'">{{this.agenda.dias[3]['tarde']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[4]['tarde']?'si':'no'">{{this.agenda.dias[4]['tarde']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[5]['tarde']?'si':'no'">{{this.agenda.dias[5]['tarde']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[6]['tarde']?'si':'no'">{{this.agenda.dias[6]['tarde']?'Si':'No'}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Noche (18:00 a 20:00)</th>
+                        <td [ngClass]="this.agenda.dias[0]['noche']?'si':'no'">{{this.agenda.dias[0]['noche']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[1]['noche']?'si':'no'">{{this.agenda.dias[1]['noche']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[2]['noche']?'si':'no'">{{this.agenda.dias[2]['noche']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[3]['noche']?'si':'no'">{{this.agenda.dias[3]['noche']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[4]['noche']?'si':'no'">{{this.agenda.dias[4]['noche']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[5]['noche']?'si':'no'">{{this.agenda.dias[5]['noche']?'Si':'No'}}</td>
+                        <td [ngClass]="this.agenda.dias[6]['noche']?'si':'no'">{{this.agenda.dias[6]['noche']?'Si':'No'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

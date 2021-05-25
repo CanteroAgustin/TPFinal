@@ -29,6 +29,7 @@ export class SignInComponent implements OnInit {
   ngOnInit() {
     this.authService.errorMsg.subscribe(msg => {
       this.msgError = msg;
+      this.isLoading = false;
     });
     this.loginForm.setValue({
       email: '',
@@ -85,7 +86,6 @@ export class SignInComponent implements OnInit {
     this.authService.SignIn(user, pass).then(() => {
       this.isLoading = false;
     }).catch(error => {
-      this.isLoading = false;
       console.log(error);
     });
   }

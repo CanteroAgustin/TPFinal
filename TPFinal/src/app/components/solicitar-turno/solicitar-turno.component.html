@@ -1,0 +1,44 @@
+<div class="container m-5">
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm w-50">
+    <h3 class="border-bottom pb-2 mb-0">Solicitar nuevo turno</h3>
+    <div class="d-flex text-muted pt-3 ">
+      <p class="pb-3 mb-0 small lh-sm border-bottom w-50">
+        <strong class="d-block text-gray-dark pb-1">Especialidad</strong>
+        <select class="form-select" (change)='onChangeEspecialidad($event.target.value)'>
+          <option>Selecciona una especialidad</option>
+          <option *ngFor='let especialidad of this.especialidades'>{{especialidad}}</option>
+        </select>
+      </p>
+    </div>
+    <div *ngIf='this.especialidadSeleccionada' class="text-muted pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom">
+        <strong class="d-block text-gray-dark">Turnos disponibles</strong>
+        <table class="table w-100">
+          <tbody>
+            <tr *ngFor='let especialista of this.especialistasParaEsp'>
+              <div *ngFor='let dia of especialista.agendaQuincenal'>
+                <div *ngFor='let ts of dia.turnos'>
+                  <div *ngFor='let t of ts'>
+                    <div *ngIf='!t.tomado'>
+                      <td class="w-50">Dr. {{especialista.apellido}} {{especialista.nombre}}</td>
+                      <td class="ps-5 w-50">{{dia.nombre}} {{dia.dia}} de {{dia.mes}}</td>
+                      <td class="ps-5 w-25">{{t.hora}}hs.</td>
+                      <td class="ps-5">
+                        <button class="btn btn-primary" (click)='confirmarTurno(especialista, dia, t.hora)'>
+                          Solicitar
+                        </button>
+                      </td>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+</div>

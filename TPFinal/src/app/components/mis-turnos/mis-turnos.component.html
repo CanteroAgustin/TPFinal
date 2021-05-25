@@ -1,0 +1,33 @@
+<div class="ms-5 mx-5 table-responsive m-5">
+
+    <table class="table table-light table-hover caption-top">
+        <thead>
+            <tr>
+                <th scope="col">
+                    Dia
+                </th>
+                <th scope="col">
+                    Hora
+                </th>
+                <th scope="col">
+                    Especialidad
+                </th>
+                <th scope="col">
+                    Profesional
+                </th>
+                <th scope="col">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let turno of turnos'>
+                <td>{{turno.diaNombre}} {{turno.dia}} de {{turno.mes}}</td>
+                <td>{{turno.hora}} hs.</td>
+                <td>{{turno.especialidad}}</td>
+                <td>{{turno.especialista}}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

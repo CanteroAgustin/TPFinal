@@ -1,0 +1,16 @@
+<div class="container m-5">
+
+    <div class="my-3 p-3 bg-body rounded shadow-sm w-50">
+        <h3 class="border-bottom pb-2 mb-0">Resumen del turno</h3>
+        <div class="p-3">
+            <div class="d-flex">
+                <h6 class="w-50"><strong>Dia:</strong> {{turno.diaNombre}} {{turno.dia}} de {{turno.mes}}</h6>
+                <h6 class="w-50"><strong>Hora:</strong> {{turno.hora}}</h6>
+            </div>
+            <h6><strong>Medico:</strong> Dr. {{turno.especialista}}</h6>
+            <h6><strong>Especialidad:</strong> {{turno.especialidad}}</h6>
+            <p>Podes volver a ver el detalle de tu turno en la seccion <a routerLink='/home/misTurnos'>Mis turnos.</a>
+                Tambien vas a poder aceptar, cancelar o rechazar el turno.</p>
+        </div>
+    </div>
+</div>

@@ -4,11 +4,14 @@
             <li class="nav-item" *ngIf='userCompleto.tipo === "admin"'>
               <a class="nav-link" routerLinkActive="active" aria-current="page" routerLink='/home/usuarios'>Usuarios</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" href="#">Features</a>
+            <li class="nav-item" *ngIf='userCompleto.tipo === "admin" || userCompleto.tipo === "paciente"'>
+              <a class="nav-link" routerLinkActive="active" routerLink='/home/solicitarTurno'>Solicitar turno</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" href="#">Pricing</a>
+            <li class="nav-item" *ngIf='userCompleto.tipo === "especialista"'>
+              <a class="nav-link" routerLinkActive="active" routerLink='/home/agenda'>Agenda</a>
+            </li>
+            <li class="nav-item" *ngIf='userCompleto.tipo === "especialista" || userCompleto.tipo === "paciente"'>
+              <a class="nav-link" routerLinkActive="active" routerLink='/home/misTurnos'>Mis turnos</a>
             </li>
           </ul>
         <div class="d-flex align-items-center">

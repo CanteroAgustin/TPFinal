@@ -1,4 +1,7 @@
+import { Agenda } from "./agenda";
+
 export class User {
+    uid: string;
     nombre: string;
     apellido: string;
     edad: string
@@ -12,4 +15,5 @@ export class User {
     tipo: string
     habilitado: boolean;
     emailVerified: boolean;
+    agenda: Agenda;
 }
