@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/firebase/auth.service';
-import firebase from 'firebase/app';
 import 'firebase/storage';
 import { Router } from '@angular/router';
 
@@ -23,11 +22,12 @@ export class SignUpComponent implements OnInit {
   edadControl = new FormControl('', [Validators.required, Validators.min(1), Validators.max(99)]);
   dniControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]{8}')]);
   obraSocialControl = new FormControl(undefined, [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
-  emailControl = new FormControl('', [Validators.required, Validators.pattern("([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}")]);
+  emailControl = new FormControl('', [Validators.required, Validators.pattern("([A-Z|a-z|0-9](\.|_|-){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}")]);
   passwordControl = new FormControl('', [Validators.required, this.passwordValidator()]);
   especialidadesControl = new FormControl(undefined, [Validators.required, Validators.pattern('[a-zA-Z ]*')]);
   perfil1Control = new FormControl(undefined, Validators.required);
   perfil2Control = new FormControl(undefined, Validators.required);
+  recaptchaReactive = new FormControl(null, Validators.required);
   user;
   esAdmin = false;
   file1;
@@ -35,6 +35,7 @@ export class SignUpComponent implements OnInit {
   isLoading = false;
   isSelected = false;
   msgError = '';
+  
 
   registerForm = new FormGroup({
     nombreControl: this.nombreControl,
@@ -47,7 +48,8 @@ export class SignUpComponent implements OnInit {
     tipoControl: this.tipoControl,
     especialidadesControl: this.especialidadesControl,
     perfil1Control: this.perfil1Control,
-    perfil2Control: this.perfil2Control
+    perfil2Control: this.perfil2Control,
+    recaptchaReactive: this.recaptchaReactive,
   });
 
   constructor(public authService: AuthService, private router: Router) { }

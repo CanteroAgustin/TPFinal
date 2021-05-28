@@ -23,7 +23,7 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            
+
             <h4 *ngIf='!esAdmin && !isSelected' class="text-center mb-3">¿Es especialista o paciente?</h4>
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" *ngIf="!esAdmin && !isSelected">
                 <div class="col w-50">
@@ -198,6 +198,8 @@
                         </div>
                     </div>
                 </div>
+                <re-captcha formControlName="recaptchaReactive" name="captcha" required
+                    siteKey="6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU"></re-captcha>
                 <div class="form-group">
                     <button class="w-100 mt-3 btn btn-primary" type="button" [disabled]="!registerForm.valid"
                         (click)="onRegistrarmeHandler()">Registrarme</button>

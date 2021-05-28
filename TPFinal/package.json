@@ -25,6 +25,7 @@
     "bootstrap-icons": "^1.5.0",
     "firebase": "^8.6.1",
     "jquery": "^3.6.0",
+    "ng-recaptcha": "^8.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"

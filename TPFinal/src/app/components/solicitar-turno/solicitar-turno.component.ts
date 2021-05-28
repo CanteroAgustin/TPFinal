@@ -121,7 +121,7 @@ export class SolicitarTurnoComponent implements OnInit {
               if (dia.noche) {
                 turnos.push(noche);
               }
-              agendaQuincenal.push({ dia: newDate.getDate(), mes: meses[newDate.getMonth()], nombre: days[day], turnos: turnos });
+              agendaQuincenal.push({ dia: newDate.getDate(), mes: meses[newDate.getMonth()], nombre: days[newDate.getDay()], turnos: turnos });
             });
           }
         });

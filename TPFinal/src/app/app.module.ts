@@ -23,7 +23,7 @@ import { SolicitarTurnoComponent } from './components/solicitar-turno/solicitar-
 import { AgendaComponent } from './components/agenda/agenda.component';
 import { SolicitudTurnoResumenComponent } from './components/solicitud-turno-resumen/solicitud-turno-resumen.component';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
-
+import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
 
 @NgModule({
   declarations: [
@@ -52,7 +52,9 @@ import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component
     AngularFirestoreModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    RecaptchaModule,
+    RecaptchaFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
