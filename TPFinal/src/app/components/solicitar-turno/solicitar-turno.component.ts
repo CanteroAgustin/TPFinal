@@ -92,7 +92,7 @@ export class SolicitarTurnoComponent implements OnInit {
                   if (turno.dia.toString() === newDate.getDate().toString() && turno.mes.toString() === meses[newDate.getMonth()]) {
                     hora = turno.hora;
                   }
-                  
+
                   mañana.forEach(m => {
                     if (m.hora === hora) {
                       m.tomado = true;
@@ -143,5 +143,9 @@ export class SolicitarTurnoComponent implements OnInit {
     turno.especialidad = this.especialidadSeleccionada;
     this.firestoreService.saveTurno(turno);
     this.router.navigate(['solicitarTurnoResumen'], { queryParams: { turno: JSON.stringify(turno) }, relativeTo: this.route });
+  }
+
+  handleEspecialidadSelected(especialidadSeleccionada) {
+
   }
 }

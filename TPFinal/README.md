@@ -59,6 +59,3 @@ Cada menú es personalizado según el rol.
 Para observar una demo de la aplicación se puede ingresar al siguiente link y utilizar los perfiles pre-cargados de diferentes usuarios para explorar la funcionalidad de los diferentes roles en una experiencia de uso real.
 
 ## https://tpfinal-4cddd.web.app
-
-:)
-

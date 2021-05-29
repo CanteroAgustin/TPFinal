@@ -1,14 +1,14 @@
 <div class="container m-5">
 
-  <div class="my-3 p-3 bg-body rounded shadow-sm w-50">
     <h3 class="border-bottom pb-2 mb-0">Solicitar nuevo turno</h3>
     <div class="d-flex text-muted pt-3 ">
       <p class="pb-3 mb-0 small lh-sm border-bottom w-50">
         <strong class="d-block text-gray-dark pb-1">Especialidad</strong>
-        <select class="form-select" (change)='onChangeEspecialidad($event.target.value)'>
+        <app-listado-especialidades (especialidadSelected)='handleEspecialidadSelected($event)' [especialidades='especialidades']></app-listado-especialidades>
+        <!-- <select class="form-select" (change)='onChangeEspecialidad($event.target.value)'>
           <option>Selecciona una especialidad</option>
           <option *ngFor='let especialidad of this.especialidades'>{{especialidad}}</option>
-        </select>
+        </select> -->
       </p>
     </div>
     <div *ngIf='this.especialidadSeleccionada' class="text-muted pt-3">
@@ -38,7 +38,6 @@
         </table>
       </div>
     </div>
-  </div>
 
 
 </div>
