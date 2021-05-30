@@ -94,41 +94,24 @@
                 <div *ngIf='tipoControl.value === "especialista"'>
                     <label for="Especialidad" class="form-label">Especialidad</label>
                     <input class="form-control" list="datalistOptions" id="Especialidad" placeholder="Buscar..."
-                        formControlName='especialidadesControl'>
+                        formControlName='especialidadesControl' autocomplete="off" (change)="onSelectEsp($event)">
                     <datalist id="datalistOptions">
-                        <option value="Anestesiologia">
-                        <option value="Anatomia Patologica">
-                        <option value="Cardiologia">
-                        <option value="Cardiologia Intervencionista">
-                        <option value="Cirugia Pediatrica">
-                        <option value="Cirugia General">
-                        <option value="Cirugia Plástica y Reconstructiva">
-                        <option value="Angiologia y Cirugia Vascular">
-                        <option value="Dermatologia">
-                        <option value="Endoscopia">
-                        <option value="Gastroenterologia">
-                        <option value="Ginegologia y Obstetricia">
-                        <option value="Hematologia">
-                        <option value="Infectologia">
-                        <option value="Nefrologia">
-                        <option value="Neurologia">
-                        <option value="Neumologia">
-                        <option value="Oftalmologia">
-                        <option value="Ortopedia">
-                        <option value="Otorrinolaringologia">
-                        <option value="Pediatria">
-                        <option value="Psiquiatria">
-                        <option value="Radiologia e Imagen">
-                        <option value="Urologia">
-                        <option value="Neumología">
-                        <option value="Hematologia">
-                        <option value="Oncologia Medica">
-                        <option value="Radio-Oncologia">
-                        <option value="Oncologia Pediatrica">
+                        <option [value]="especialidad.descripcion" *ngFor='let especialidad of especialidades'>
                     </datalist>
-                    <div *ngIf="especialidadesControl.invalid && (especialidadesControl.dirty || especialidadesControl.touched)"
+                    <div class="btn-group" role="group" *ngFor='let espCargada of espCargadas'>
+                        <button type="button" class="btn btn-labeled btn-primary btn-sm">
+                            <span class="btn-label" (click)='onRemoveEsp(espCargada.descripcion)'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x" viewBox="0 0 16 16">
+                                <path
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                                </path>
+                            </svg>
+                            </span>{{espCargada.descripcion}}</button>
+                    </div>
+                    <div *ngIf="espCargadas.length < 1 && (especialidadesControl.dirty || especialidadesControl.touched)"
                         class="alert alert-danger">
-                        <div *ngIf="especialidadesControl.errors.required">
+                        <div *ngIf="espCargadas.length < 1">
                             Debe ingresar una especialidad, puede elegir una de la lista o agregar una nueva.
                         </div>
                         <div *ngIf="especialidadesControl.errors.pattern">

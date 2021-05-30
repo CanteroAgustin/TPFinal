@@ -11,6 +11,7 @@ export class FirestoreService {
   collection: AngularFirestoreCollection<any> | undefined;
   collectionPathUsers = '/users';
   collectionPathTurnos = '/turnos';
+  collectionPathEspecialidades = '/especialidades';
 
   constructor(private firestore: AngularFirestore) {
 
@@ -45,4 +46,16 @@ export class FirestoreService {
     this.collection = this.firestore.collection(this.collectionPathTurnos);
     return this.collection;
   }
+
+  getAllEspecialidades(){
+    this.collection = this.firestore.collection(this.collectionPathEspecialidades);
+    return this.collection;
+  }
+
+  getEspecialistasConAgenda(){
+    const usersRef = this.firestore.collection(this.collectionPathUsers).ref;
+    var query = usersRef.where("tipo", "==", "especialista").where("agenda", "!=", null);
+    return query.get();
+  }
+
 }

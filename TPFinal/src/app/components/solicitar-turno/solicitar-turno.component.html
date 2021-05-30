@@ -1,43 +1,55 @@
 <div class="container m-5">
-
-    <h3 class="border-bottom pb-2 mb-0">Solicitar nuevo turno</h3>
-    <div class="d-flex text-muted pt-3 ">
-      <p class="pb-3 mb-0 small lh-sm border-bottom w-50">
-        <strong class="d-block text-gray-dark pb-1">Especialidad</strong>
-        <app-listado-especialidades (especialidadSelected)='handleEspecialidadSelected($event)' [especialidades='especialidades']></app-listado-especialidades>
-        <!-- <select class="form-select" (change)='onChangeEspecialidad($event.target.value)'>
-          <option>Selecciona una especialidad</option>
-          <option *ngFor='let especialidad of this.especialidades'>{{especialidad}}</option>
-        </select> -->
-      </p>
+  <div class="d-flex p-5 justify-content-center" *ngIf='!seleccionInicial && !especialidadSeleccionada'>
+    <div class="card m-5 card-rounded btn" style="width: 18rem;" (click)='onSeleccionInicial("especialidad")'>
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/tpfinal-4cddd.appspot.com/o/especialidades%2Fespecialidad-default.png?alt=media&token=8953e5fc-6771-43f3-8fcf-ef0374a774cd"
+        class="card-img-top p-5 pb-2 pt-4 h-75">
+      <div class="card-body">
+        <h5 class="card-title text-muted mb-0">Elegir Especialidad</h5>
+      </div>
     </div>
-    <div *ngIf='this.especialidadSeleccionada' class="text-muted pt-3">
-      <div class="pb-3 mb-0 small lh-sm border-bottom">
-        <strong class="d-block text-gray-dark">Turnos disponibles</strong>
-        <table class="table w-100">
-          <tbody>
-            <tr *ngFor='let especialista of this.especialistasParaEsp'>
-              <div *ngFor='let dia of especialista.agendaQuincenal'>
-                <div *ngFor='let ts of dia.turnos'>
-                  <div *ngFor='let t of ts'>
-                    <div *ngIf='!t.tomado'>
-                      <td class="w-50">Dr. {{especialista.apellido}} {{especialista.nombre}}</td>
-                      <td class="ps-5 w-50">{{dia.nombre}} {{dia.dia}} de {{dia.mes}}</td>
-                      <td class="ps-5 w-25">{{t.hora}}hs.</td>
-                      <td class="ps-5">
-                        <button class="btn btn-primary" (click)='confirmarTurno(especialista, dia, t.hora)'>
-                          Solicitar
-                        </button>
-                      </td>
-                    </div>
+    <div class="card m-5 card-rounded btn" style="width: 18rem;" (click)='onSeleccionInicial("especialista")'>
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/tpfinal-4cddd.appspot.com/o/user%2Fespecialista-default.png?alt=media&token=8e3ca717-34eb-4171-8da2-b494566997c6"
+        class="card-img-top p-5 pb-2 pt-4 h-75">
+      <div class="card-body">
+        <h5 class="card-title text-muted mb-0">Elegir Especialista</h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex text-muted pt-3 " *ngIf='seleccionInicial === "especialidad"'>
+      <app-listado-especialidades (onEspecialidadSelected)='handleEspecialidadSelected($event)'
+        [especialidades]='especialidades'></app-listado-especialidades>
+  </div>
+
+  <div *ngIf='this.especialidadSeleccionada' class="text-muted pt-3">
+    <div class="pb-3 mb-0 small lh-sm border-bottom">
+      <strong class="d-block text-gray-dark">Turnos disponibles</strong>
+      <table class="table w-100">
+        <tbody>
+          <tr *ngFor='let especialista of this.especialistasParaEsp'>
+            <div *ngFor='let dia of especialista.agendaQuincenal'>
+              <div *ngFor='let ts of dia.turnos'>
+                <div *ngFor='let t of ts'>
+                  <div *ngIf='!t.tomado'>
+                    <td class="w-50">Dr. {{especialista.apellido}} {{especialista.nombre}}</td>
+                    <td class="ps-5 w-50">{{dia.nombre}} {{dia.dia}} de {{dia.mes}}</td>
+                    <td class="ps-5 w-25">{{t.hora}}hs.</td>
+                    <td class="ps-5">
+                      <button class="btn btn-primary" (click)='confirmarTurno(especialista, dia, t.hora)'>
+                        Solicitar
+                      </button>
+                    </td>
                   </div>
                 </div>
               </div>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            </div>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 
 
 </div>

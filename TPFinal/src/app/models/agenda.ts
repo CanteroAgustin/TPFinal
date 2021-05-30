@@ -6,5 +6,14 @@ export interface Dias {
 }
 
 export class Agenda {
-    dias: Dias[] = [];
+    agenda:{
+        dias: [
+            {
+                nombre: string;
+                mañana: boolean;
+                tarde: boolean;
+                noche: boolean;
+            }
+        ];
+    }
 }

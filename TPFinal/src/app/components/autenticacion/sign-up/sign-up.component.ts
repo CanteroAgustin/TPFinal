@@ -3,6 +3,8 @@ import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from
 import { AuthService } from 'src/app/services/firebase/auth.service';
 import 'firebase/storage';
 import { Router } from '@angular/router';
+import { Especialidad } from 'src/app/models/especialidad';
+import { FirestoreService } from 'src/app/services/firebase/firestore.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -35,7 +37,9 @@ export class SignUpComponent implements OnInit {
   isLoading = false;
   isSelected = false;
   msgError = '';
-  
+  especialidades: Especialidad[];
+  espCargadas: Especialidad[] = [];
+
 
   registerForm = new FormGroup({
     nombreControl: this.nombreControl,
@@ -52,10 +56,13 @@ export class SignUpComponent implements OnInit {
     recaptchaReactive: this.recaptchaReactive,
   });
 
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router, private firestoreService: FirestoreService) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.firestoreService.getAllEspecialidades().valueChanges().subscribe(response => {
+      this.especialidades = response;
+    });
     this.authService.errorMsg.subscribe(msg => {
       this.msgError = msg;
     });
@@ -126,7 +133,7 @@ export class SignUpComponent implements OnInit {
 
   onRegistrarmeHandler() {
     this.isLoading = true;
-    this.authService.SignUp(this.registerForm.value, this.file1, this.file2).then(response => {
+    this.authService.SignUp(this.registerForm.value, this.file1, this.file2, this.espCargadas).then(response => {
       this.isLoading = false;
       this.router.navigate(['home']);
     }).catch(error => {
@@ -137,5 +144,50 @@ export class SignUpComponent implements OnInit {
 
   closeAlert() {
     this.msgError = '';
+  }
+
+  onSelectEsp(event) {
+
+    let existe = false;
+    let defaultEsp = {
+      descripcion: event.target.value,
+      imgPath: 'https://firebasestorage.googleapis.com/v0/b/tpfinal-4cddd.appspot.com/o/especialidades%2Fespecialidad-default.png?alt=media&token=8953e5fc-6771-43f3-8fcf-ef0374a774cd'
+    };
+
+    this.especialidades.forEach(especialidad => {
+      if (especialidad.descripcion === event.target.value) {
+        if (!this.espCargadas.includes(especialidad)) {
+          this.espCargadas.push(especialidad);
+        }
+        existe = true;
+      }
+    });
+    if (!existe) {
+      let repetida = false;
+      this.espCargadas.forEach(esp=>{
+        if(esp.descripcion === defaultEsp.descripcion){
+          repetida = true;
+        }
+      })
+      if (!repetida) {
+        this.espCargadas.push(defaultEsp);
+      }
+    }
+    this.especialidadesControl.setValidators(null);
+    this.especialidadesControl.updateValueAndValidity();
+    this.especialidadesControl.reset();
+  }
+
+  onRemoveEsp(esp) {
+    this.espCargadas.forEach(especialidad => {
+      if (especialidad.descripcion === esp) {
+        this.espCargadas = this.espCargadas.filter(e => e.descripcion !== especialidad.descripcion);
+      }
+    });
+    this.especialidadesControl.reset();
+    if (this.espCargadas.length < 1) {
+      this.especialidadesControl.setValidators([Validators.required, Validators.pattern('[a-zA-Z ]*')]);
+      this.especialidadesControl.updateValueAndValidity();
+    }
   }
 }

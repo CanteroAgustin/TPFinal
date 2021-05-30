@@ -1,4 +1,4 @@
 export class Especialidad {
     descripcion: string;
-    imagen: string;
+    imgPath: string;
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Especialidad } from 'src/app/models/especialidad';
 import { Turnos } from 'src/app/models/turnos';
 import { User } from 'src/app/models/user';
 import { FirestoreService } from 'src/app/services/firebase/firestore.service';
@@ -14,26 +15,39 @@ export class SolicitarTurnoComponent implements OnInit {
   usuarios;
   pacientes;
   especialistas;
-  especialidades;
+  especialidades: Especialidad[] = [];
   especialidadSeleccionada;
   especialistasParaEsp;
   user: User;
   turnosUser: Turnos[];
+  especialistasConAgenda = [];
+  seleccionInicial = '';
 
   constructor(private firestoreService: FirestoreService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.firestoreService.getAllUsers().valueChanges().subscribe(response => {
-      this.usuarios = response;
-      this.pacientes = this.usuarios.filter(usuario => {
-        return usuario.tipo === 'paciente';
-      })
-      this.especialistas = this.usuarios.filter(usuario => {
-        return usuario.tipo === 'especialista';
-      })
-      this.especialidades = this.especialistas.filter(esp => esp.agenda).map(a => a.especialidad);
-    });
+    this.firestoreService.getEspecialistasConAgenda().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        this.especialistasConAgenda.push(doc.data());
+        this.especialistasConAgenda.forEach(especialistaConAgenda => {
+          especialistaConAgenda.especialidades.forEach(especialidad => {
+            let existe = false;
+            this.especialidades.forEach(esp => {
+              if (esp.descripcion === especialidad.descripcion) {
+                existe = true;
+              }
+            });
+            if (!existe) {
+              this.especialidades.push(especialidad);
+            }
+          });
+        });
+      });
+    })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
   }
 
   onChangeEspecialidad(especialidad) {
@@ -57,9 +71,9 @@ export class SolicitarTurnoComponent implements OnInit {
       let newDate = new Date(today);
       newDate.setDate(newDate.getDate() + i - 1);
 
-      let agenda = JSON.parse(especialista.agenda ? especialista.agenda : null);
+      let agenda = especialista.agenda ? especialista.agenda : null;
       if (agenda) {
-        agenda.dias.forEach(dia => {
+        agenda.forEach(dia => {
           if (dia.nombre === days[day] && (dia.mañana || dia.tarde || dia.noche)) {
             let turnos = [];
             let hora;
@@ -146,6 +160,23 @@ export class SolicitarTurnoComponent implements OnInit {
   }
 
   handleEspecialidadSelected(especialidadSeleccionada) {
+    this.especialidadSeleccionada = especialidadSeleccionada;
+    this.seleccionInicial = '';
+    this.especialistasParaEsp = this.especialistasConAgenda.filter(especialista => {
+      let devolver = false;
+      especialista.especialidades.forEach(especialidad => {
+        if(especialidad.descripcion === especialidadSeleccionada.descripcion){
+          devolver = true;
+        }
+      });
+      return devolver;
+    });
+    this.especialistasParaEsp.forEach(esp => {
+      esp.agendaQuincenal = this.armarAgenda(esp);
+    });
+  }
 
+  onSeleccionInicial(tipo) {
+    this.seleccionInicial = tipo;
   }
 }

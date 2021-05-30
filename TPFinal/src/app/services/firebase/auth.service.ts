@@ -3,7 +3,6 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import firebase from 'firebase/app';
-import { throwError } from 'rxjs';
 import { Agenda } from 'src/app/models/agenda';
 import { User as UserSistema } from 'src/app/models/user';
 import { FirestoreService } from './firestore.service';
@@ -16,7 +15,7 @@ export interface User {
   apellido: string,
   edad: string,
   dni: string,
-  especialidad: string,
+  especialidades: string,
   obraSocial: string,
   password: string,
   perfil1: string,
@@ -102,7 +101,7 @@ export class AuthService {
       })
   }
 
-  SignUp(form, file1, file2) {
+  SignUp(form, file1, file2, especialidades) {
     return this.afAuth.createUserWithEmailAndPassword(form.emailControl, form.passwordControl)
       .then((result) => {
         if (file1) {
@@ -123,7 +122,7 @@ export class AuthService {
         userCompleto.edad = form.edadControl;
         userCompleto.dni = form.dniControl;
         userCompleto.email = form.emailControl;
-        userCompleto.especialidad = form.especialidadesControl;
+        userCompleto.especialidades = especialidades;
         userCompleto.obraSocial = form.obraSocialControl;
         userCompleto.password = form.passwordControl;
         userCompleto.perfil1 = file1.name;
@@ -183,14 +182,14 @@ export class AuthService {
       apellido: userCompleto.apellido,
       edad: userCompleto.edad,
       dni: userCompleto.dni,
-      especialidad: userCompleto.especialidad ? userCompleto.especialidad : null,
+      especialidades: userCompleto.especialidades ? userCompleto.especialidades : null,
       obraSocial: userCompleto.obraSocial ? userCompleto.obraSocial : null,
       password: userCompleto.password,
       perfil1: userCompleto.perfil1 ? userCompleto.perfil1 : null,
       perfil2: userCompleto.perfil2 ? userCompleto.perfil2 : null,
       tipo: userCompleto.tipo,
       habilitado: userCompleto.tipo === 'especialista' && !userCompleto.uid ? false : true,
-      agenda: userCompleto.agenda ? JSON.parse(userCompleto.agenda) : null,
+      agenda: userCompleto.agenda ? userCompleto.agenda : null,
     }
 
     if (userState.emailVerified) {
