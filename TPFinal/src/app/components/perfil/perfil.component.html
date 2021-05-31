@@ -1,6 +1,6 @@
 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative m-5 bg-light">
     <div class="col-2 d-none d-sm-block text-center">
-        <img class="w-75 m-3" [src]="perfil1" alt="">
+        <img class="w-75 m-3" [src]="user.perfil1" alt="">
         <strong *ngIf='user.tipo === "admin"' class="text-primary">Administrador</strong>
     </div>
     <div class="col p-4 d-flex flex-column position-static">
@@ -9,6 +9,6 @@
         <h5 class="text-secondary"><strong>DNI: </strong>{{user.dni}}</h5>
         <h5 class="text-secondary" *ngIf='user.obraSocial'><strong>Obra social: </strong>{{user.obraSocial}}</h5>
         <h5 class="text-secondary" *ngIf='user.especialidad'><strong>Especialidad: </strong>{{user.especialidad}}</h5>
-        <img class="perfil2" *ngIf='perfil2' [src]="perfil2" alt="">
+        <img class="perfil2" *ngIf='user.perfil2' [src]="user.perfil2" alt="">
     </div>
 </div>

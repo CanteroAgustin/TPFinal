@@ -145,20 +145,6 @@ export class SolicitarTurnoComponent implements OnInit {
     return agendaQuincenal;
   }
 
-  confirmarTurno(especialista, dia, hora) {
-    let turno = new Turnos;
-    turno.dia = dia.dia;
-    turno.diaNombre = dia.nombre;
-    turno.mes = dia.mes;
-    turno.especialista = especialista.nombre + ' ' + especialista.apellido;
-    turno.hora = hora;
-    turno.paciente = this.user.uid;
-    turno.especialistaUid = especialista.uid;
-    turno.especialidad = this.especialidadSeleccionada;
-    this.firestoreService.saveTurno(turno);
-    this.router.navigate(['solicitarTurnoResumen'], { queryParams: { turno: JSON.stringify(turno) }, relativeTo: this.route });
-  }
-
   handleEspecialidadSelected(especialidadSeleccionada) {
     this.especialidadSeleccionada = especialidadSeleccionada;
     this.seleccionInicial = '';

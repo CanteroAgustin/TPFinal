@@ -3,27 +3,8 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import firebase from 'firebase/app';
-import { Agenda } from 'src/app/models/agenda';
-import { User as UserSistema } from 'src/app/models/user';
+import { User, User as UserSistema } from 'src/app/models/user';
 import { FirestoreService } from './firestore.service';
-
-export interface User {
-  uid: string;
-  email: string;
-  emailVerified: boolean;
-  nombre: string;
-  apellido: string,
-  edad: string,
-  dni: string,
-  especialidades: string,
-  obraSocial: string,
-  password: string,
-  perfil1: string,
-  perfil2: string,
-  tipo: string,
-  habilitado: boolean,
-  agenda: Agenda
-}
 
 @Injectable({
   providedIn: 'root'
@@ -39,14 +20,6 @@ export class AuthService {
     public ngZone: NgZone,
     private firestoreService: FirestoreService
   ) {
-    // this.afAuth.authState.subscribe(user => {
-    //   if (user && user.emailVerified) {
-    //     this.userState = user;
-    //     localStorage.setItem('user', JSON.stringify(this.userState));
-    //   } else {
-    //     localStorage.removeItem('user')
-    //   }
-    // })
   }
 
   SignIn(email: string, password: string) {
@@ -104,19 +77,36 @@ export class AuthService {
   SignUp(form, file1, file2, especialidades) {
     return this.afAuth.createUserWithEmailAndPassword(form.emailControl, form.passwordControl)
       .then((result) => {
+        let userCompleto = new UserSistema;
         if (file1) {
           const storageRef = firebase.storage().ref(`user/perfil1/${result.user.uid}-${file1.name}`);
-          storageRef.put(file1).then(snapshot => {
-            console.log(snapshot);
+          storageRef.put(file1).then(() => {
+            const storageRef = firebase.storage().ref();
+            const ref = storageRef.child(`user/perfil1/${result.user.uid}-${file1.name}`);
+            ref.getDownloadURL().then(url => {
+              userCompleto.perfil1 = url;
+              if (file2) {
+                const storageRef2 = firebase.storage().ref(`user/perfil2/${result.user.uid}-${file2.name}`);
+                storageRef2.put(file2).then(() => {
+                  const storageRef = firebase.storage().ref();
+                  const ref = storageRef.child(`user/perfil2/${result.user.uid}-${file2.name}`);
+                  ref.getDownloadURL().then(url => {
+                    userCompleto.perfil2 = url;
+                    this.SendVerificationMail(userCompleto);
+                    this.SetUserData(result.user || this.userState, userCompleto);
+                  }).catch(function (error) {
+                    console.log(error);
+                  });
+                });
+              } else {
+                this.SendVerificationMail(userCompleto);
+                this.SetUserData(result.user || this.userState, userCompleto);
+              }
+            }).catch(function (error) {
+              console.log(error);
+            });
           });
         }
-        if (file2) {
-          const storageRef2 = firebase.storage().ref(`user/perfil2/${result.user.uid}-${file2.name}`);
-          storageRef2.put(file2).then(snapshot => {
-            console.log(snapshot);
-          });
-        }
-        let userCompleto = new UserSistema;
         userCompleto.nombre = form.nombreControl;
         userCompleto.apellido = form.apellidoControl;
         userCompleto.edad = form.edadControl;
@@ -125,12 +115,9 @@ export class AuthService {
         userCompleto.especialidades = especialidades;
         userCompleto.obraSocial = form.obraSocialControl;
         userCompleto.password = form.passwordControl;
-        userCompleto.perfil1 = file1.name;
-        userCompleto.perfil2 = file2 ? file2.name : '';
         userCompleto.tipo = form.tipoControl;
         userCompleto['habilitado'] = form.tipoControl === 'especialista' ? false : true;
-        this.SendVerificationMail(userCompleto);
-        this.SetUserData(result.user || this.userState, userCompleto);
+
       }).catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
           this.errorMsg.emit('El email ingresado esta en uso.');
@@ -189,7 +176,7 @@ export class AuthService {
       perfil2: userCompleto.perfil2 ? userCompleto.perfil2 : null,
       tipo: userCompleto.tipo,
       habilitado: userCompleto.tipo === 'especialista' && !userCompleto.uid ? false : true,
-      agenda: userCompleto.agenda ? userCompleto.agenda : null,
+      agenda: userCompleto.agenda ? userCompleto.agenda : null
     }
 
     if (userState.emailVerified) {

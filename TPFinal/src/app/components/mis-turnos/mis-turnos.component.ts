@@ -10,20 +10,22 @@ import { FirestoreService } from 'src/app/services/firebase/firestore.service';
 })
 export class MisTurnosComponent implements OnInit {
 
-  turnos: Turnos[];
+  turnos = [];
   user: User;
 
   constructor(private firestoreService: FirestoreService) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.firestoreService.getTurnos().valueChanges().subscribe(response => {
-      if (this.user.tipo === 'paciente') {
-        this.turnos = response.filter(data=> data.paciente === this.user.uid);
-      } else if (this.user.tipo === 'especialista') {
-        this.turnos = response.filter(data=> data.paciente === this.user.uid);
-      }
-    });
+    this.firestoreService.getTurnosParaEspecialista(this.user.uid).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        this.turnos.push(doc.data());
+      });
+    }
+    );
   }
-
+  cancelarTurno(turno){
+    turno.estado = 'Cancelado';
+    this.firestoreService.actualizarTurno(turno.uid, turno);
+  }
 }

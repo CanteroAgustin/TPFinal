@@ -1,3 +1,5 @@
+import { Turnos } from "./turnos";
+
 export class User {
     uid: string;
     nombre: string;

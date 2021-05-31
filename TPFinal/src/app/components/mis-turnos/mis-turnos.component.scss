@@ -1,0 +1,19 @@
+.badge-size{
+    font-size: 1em;
+}
+
+.estadoEnEspera{
+    background-color: var(--primary);   
+}
+
+.estadoEnEsperaCard{
+    border: 1px solid var(--primary);
+}
+
+.estadoCancelado{
+    background-color: var(--danger);
+}
+
+.estadoCanceladoCard{
+    border: 1px solid var(--danger);
+}

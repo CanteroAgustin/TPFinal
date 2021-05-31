@@ -25,6 +25,7 @@ import { SolicitudTurnoResumenComponent } from './components/solicitud-turno-res
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
 import { ListadoEspecialidadesComponent } from './components/listado-especialidades/listado-especialidades.component';
+import { TurnosEspecialidadComponent } from './components/turnos-especialidad/turnos-especialidad.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ListadoEspecialidadesComponent } from './components/listado-especialida
     AgendaComponent,
     SolicitudTurnoResumenComponent,
     MisTurnosComponent,
-    ListadoEspecialidadesComponent
+    ListadoEspecialidadesComponent,
+    TurnosEspecialidadComponent
   ],
   imports: [
     BrowserModule,

@@ -58,4 +58,14 @@ export class FirestoreService {
     return query.get();
   }
 
+  getTurnosParaEspecialista(uid){
+    const usersRef = this.firestore.collection(this.collectionPathTurnos).ref;
+    var query = usersRef.where("paciente.uid", "==", uid);
+    return query.get();
+  }
+
+  actualizarTurno(id: any, datos: any): Promise<void> {
+    this.collection = this.firestore.collection(this.collectionPathTurnos);
+    return this.collection.doc(id).update(datos);
+  }
 }

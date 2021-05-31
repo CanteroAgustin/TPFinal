@@ -1,0 +1,29 @@
+<div class="" *ngFor='let especialista of especialistasParaEsp'>
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-2 text-center">
+                <img [src]="especialista.perfil1" class="img-fluid p-3 max-width-150" />
+                <h5 class="card-title">Dr. {{especialista.apellido}} {{especialista.nombre}}</h5>
+                <h5 class="card-title">Especialidad: </h5>
+            </div>
+            <div class="col-md-2 text-center">
+                <h5 class="card-title pt-4">Turnos disponibles: </h5>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div *ngFor='let dia of especialista.agendaQuincenal'>
+                        <div class="row" *ngFor='let ts of dia.turnos'>
+                            <span class="col-md-3">{{dia.nombre}} {{dia.dia}} de {{dia.mes}}</span>
+                            <div class="btn-group col-md-1" role="group" *ngFor='let t of ts'>
+                                <div *ngIf='!t.tomado'>
+                                    <button type="button" class="btn btn-labeled btn-primary btn-sm"
+                                        (click)='armarTurno(especialista, dia, t.hora)'>{{t.hora}}hs.</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
