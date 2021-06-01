@@ -1,0 +1,15 @@
+<div class="form-group row m-5" [formGroup]="busquedaForm">
+    <input type="text" class="form-control w-25" placeholder="Nombre del Médico" formControlName='medicoControl'
+        autocomplete="off" *ngIf='tipo === "paciente"'>
+    <input type="text" class="form-control w-25" placeholder="Nombre del Paciente" formControlName='pacienteControl'
+        autocomplete="off" *ngIf='tipo === "especialista"'>
+    <input class="form-control w-25" list="datalistOptions" id="Especialidad" placeholder="Especialidad"
+        formControlName='especialidadControl' autocomplete="off">
+    <datalist id="datalistOptions">
+        <option [value]="especialidad.descripcion" *ngFor='let especialidad of especialidades'>
+    </datalist>
+    <button class="btn btn-primary w-fit" type="button" (click)="submitSearchForm()">
+        <i class="fa fa-search"></i>
+        Buscar
+    </button>
+</div>

@@ -11,21 +11,39 @@ import { FirestoreService } from 'src/app/services/firebase/firestore.service';
 export class MisTurnosComponent implements OnInit {
 
   turnos = [];
+  turnosAListar: Turnos[]
   user: User;
+  tipo;
 
   constructor(private firestoreService: FirestoreService) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.firestoreService.getTurnosParaEspecialista(this.user.uid).then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        this.turnos.push(doc.data());
+    this.tipo = this.user.tipo;
+    if (this.tipo === 'paciente') {
+      this.firestoreService.getTurnosDePeciente(this.user.uid).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.turnos.push(doc.data());
+        });
+        this.turnosAListar = [...this.turnos];
       });
     }
-    );
+
+    if (this.tipo === 'especialista') {
+      this.firestoreService.getTurnosDeEspecialista(this.user.uid).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.turnos.push(doc.data());
+        });
+      });
+    }
   }
-  cancelarTurno(turno){
+
+  cancelarTurno(turno) {
     turno.estado = 'Cancelado';
     this.firestoreService.actualizarTurno(turno.uid, turno);
+  }
+
+  handleOnturnosFiltrados(turnos: Turnos[]) {
+    this.turnosAListar.splice(0,this.turnosAListar.length,...turnos);
   }
 }

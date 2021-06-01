@@ -1,19 +1,42 @@
-.badge-size{
+.badge-size {
     font-size: 1em;
 }
 
-.estadoEnEspera{
-    background-color: var(--primary);   
+.estadoEnEspera {
+    background-color: var(--primary);
 }
 
-.estadoEnEsperaCard{
+.estadoEnEsperaCard {
     border: 1px solid var(--primary);
 }
 
-.estadoCancelado{
+.estadoCancelado {
     background-color: var(--danger);
 }
 
-.estadoCanceladoCard{
+.estadoCanceladoCard {
     border: 1px solid var(--danger);
+}
+
+.img-w {
+    width: 40px;
+}
+
+.text-style {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.img-contenedor img {
+    -webkit-transition: all 0.5s ease; /* Safari y Chrome */
+    -moz-transition: all 0.5s ease; /* Firefox */
+    -o-transition: all 0.5s ease; /* IE 9 */
+    -ms-transition: all 0.5s ease; /* Opera */
+}
+.img-contenedor:hover img {
+    -webkit-transform: scale(2);
+    -moz-transform: scale(2);
+    -ms-transform: scale(2);
+    -o-transform: scale(2);
+    transform: scale(2);
 }
