@@ -45,6 +45,20 @@ export class BusquedaComponent implements OnInit {
         return espSinTildesYLowerCase.includes(espABuscarSinTildesYLowerCase);
       });
     }
+    if(this.medicoControl.value){
+      this.turnosFiltrados = this.turnosAFiltrar.filter(turno => {
+        let docSinTildesYLowerCase = this.removeAccents(turno.especialista.nombre+turno.especialista.apellido).toLowerCase();
+        let docABuscarSinTildesYLowerCase = this.removeAccents(this.medicoControl.value).toLowerCase();
+        return docSinTildesYLowerCase.includes(docABuscarSinTildesYLowerCase);
+      });
+    }
+    if(this.pacienteControl.value){
+      this.turnosFiltrados = this.turnosAFiltrar.filter(turno => {
+        let pacSinTildesYLowerCase = this.removeAccents(turno.paciente.nombre+turno.paciente.apellido).toLowerCase();
+        let pacABuscarSinTildesYLowerCase = this.removeAccents(this.pacienteControl.value).toLowerCase();
+        return pacSinTildesYLowerCase.includes(pacABuscarSinTildesYLowerCase);
+      });
+    }
     this.onTurnosFiltrados.emit(this.turnosFiltrados);
     this.turnosFiltrados.splice(0,this.turnosFiltrados.length,...this.turnosAFiltrar);
   }

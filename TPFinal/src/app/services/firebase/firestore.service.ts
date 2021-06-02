@@ -58,6 +58,12 @@ export class FirestoreService {
     return query.get();
   }
 
+  getPacientes(){
+    const usersRef = this.firestore.collection(this.collectionPathUsers).ref;
+    var query = usersRef.where("tipo", "==", "paciente");
+    return query.get();
+  }
+
   getTurnosDePeciente(uid){
     const usersRef = this.firestore.collection(this.collectionPathTurnos).ref;
     var query = usersRef.where("paciente.uid", "==", uid);

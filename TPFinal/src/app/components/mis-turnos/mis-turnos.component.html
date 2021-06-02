@@ -1,52 +1,69 @@
-<app-busqueda [tipo]='tipo' [turnosAFiltrar]='turnos' (onTurnosFiltrados)='handleOnturnosFiltrados($event)'></app-busqueda>
-<div class="mt-5 ms-5">
-    <div *ngFor='let turno of turnosAListar'>
-        <div class="card border shadow-0 w-50 mb-1"
-            [ngClass]="{'border-primary': turno.estado === 'En espera', 'border-danger': turno.estado === 'Cancelado'}">
-            <div class="card-header p-1 ps-3">
-                <div class="row">
-                    <div class="col-sm-10">
-                        {{turno.diaNombre}} {{turno.dia}} de {{turno.mes}} {{turno.hora}} hs.
-                    </div>
-                    <div class="col-sm-2">
-                        <span class="badge badge-size"
-                            [ngClass]="{'bg-primary': turno.estado === 'En espera', 'bg-danger': turno.estado === 'Cancelado'}">
-                            {{turno.estado}}</span>
-                    </div>
+<div class="w-50 m-auto">
+    <app-busqueda [tipo]='tipo' [turnosAFiltrar]='turnos' (onTurnosFiltrados)='handleOnturnosFiltrados($event)'>
+    </app-busqueda>
+    <div *ngFor='let turno of turnosAListar' class="card border shadow-0 w-100 mb-1" [ngClass]="{
+                                    'border-primary': turno.estado === 'En espera', 
+                                    'border-danger': turno.estado === 'Cancelado' || turno.estado === 'Rechazado', 
+                                    'border-success': turno.estado === 'Aceptado',
+                                    'border-dark': turno.estado === 'Finalizado'
+                                }">
+        <div class="card-header p-1 ps-3">
+            <div class="row">
+                <div class="col-sm-10">
+                    {{turno.diaNombre}} {{turno.dia}} de {{turno.mes}} {{turno.hora}} hs.
                 </div>
-            </div>
-            <div class="card-body row p-1 ps-3">
-                <div class="col-4 " *ngIf='tipo==="paciente"'>
-                    <span class="card-title text-style d-flex align-items-center text-muted">
-                        <div class="img-contenedor">
-                            <img class="img-w pe-2" [src]="turno.especialista.perfil1">
-                        </div>
-                        Dr. {{turno.especialista.apellido}}
-                        {{turno.especialista.nombre}}
-                    </span>
-                </div>
-                <div class="col-4" *ngIf='tipo==="especialista"'>
-                    <span class="card-title text-style d-flex align-items-center text-muted">
-                        <div class="img-contenedor">
-                            <img class="img-w pe-2" [src]="turno.paciente.perfil1">
-                        </div>
-                        {{turno.paciente.apellido}}
-                        {{turno.paciente.nombre}}
-                    </span>
-                </div>
-                <div class="col-4">
-                    <span class="card-title text-style d-flex align-items-center text-muted ">
-                        <img class="img-w pe-2" [src]="turno.especialidad.imgPath">
-                        {{turno.especialidad.descripcion}}
-                    </span>
-                </div>
-                <div class="btn-group col-4 m-auto pe2">
-                    <button *ngIf='turno.estado === "En espera"' class="btn btn-sm btn-outline-danger"
-                        (click)='cancelarTurno(turno)'>Cancelar</button>
-                    <button *ngIf='turno.estado === "En espera" && tipo === "especialista"'
-                        class="btn btn-sm btn-outline-danger" (click)='rechazarTurno(turno)'>Rechazar</button>
+                <div class="col-sm-2">
+                    <span class="badge badge-size" [ngClass]="{
+                                                    'bg-primary': turno.estado === 'En espera', 
+                                                    'bg-danger': turno.estado === 'Cancelado' || turno.estado === 'Rechazado', 
+                                                    'bg-success': turno.estado === 'Aceptado',
+                                                    'bg-dark': turno.estado === 'Finalizado'
+                                                }">
+                        {{turno.estado}}</span>
                 </div>
             </div>
         </div>
+        <div class="card-body row p-1 ps-3">
+            <div class="col-4 " *ngIf='tipo==="admin"'>
+                <div class="text-muted"><strong>Especialista:</strong> Dr. {{turno.especialista.apellido}} {{turno.especialista.nombre}}</div>
+                <div class="text-muted"><strong>Paciente:</strong> {{turno.paciente.apellido}} {{turno.paciente.nombre}}</div>
+            </div>
+            <div class="col-4 " *ngIf='tipo==="paciente"'>
+                <span *ngIf='tipo==="admin"'>Especialista: </span>
+                <span class="card-title text-style d-flex align-items-center text-muted">
+                    <div class="img-contenedor">
+                        <img class="img-w pe-2" [src]="turno.especialista.perfil1">
+                    </div>
+                    Dr. {{turno.especialista.apellido}}
+                    {{turno.especialista.nombre}}
+                </span>
+            </div>
+            <div class="col-4" *ngIf='tipo==="especialista"'>
+                <span class="card-title text-style d-flex align-items-center text-muted">
+                    <div class="img-contenedor">
+                        <img class="img-w pe-2" [src]="turno.paciente.perfil1">
+                    </div>
+                    {{turno.paciente.apellido}}
+                    {{turno.paciente.nombre}}
+                </span>
+            </div>
+            <div class="col-4">
+                <span class="card-title text-style d-flex align-items-center text-muted ">
+                    <img class="img-w pe-2" [src]="turno.especialidad.imgPath">
+                    {{turno.especialidad.descripcion}}
+                </span>
+            </div>
+            <div class="btn-group col-4 m-auto pe2">
+                <button *ngIf='turno.estado === "En espera" && tipo === "especialista"'
+                    class="btn btn-sm btn-outline-primary" (click)='aceptarTurno(turno)'>Aceptar</button>
+                <button *ngIf='turno.estado === "En espera"' class="btn btn-sm btn-outline-danger"
+                    (click)='cancelarTurno(turno)'>Cancelar</button>
+                <button *ngIf='turno.estado === "En espera" && tipo === "especialista"'
+                    class="btn btn-sm btn-outline-danger" (click)='rechazarTurno(turno)'>Rechazar</button>
+                <button *ngIf='turno.estado === "Aceptado" && tipo === "especialista"'
+                    class="btn btn-sm btn-outline-dark" (click)='finalizarTurno(turno)'>Finalizar</button>
+            </div>
+        </div>
+
     </div>
 </div>

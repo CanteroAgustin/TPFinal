@@ -1,3 +1,21 @@
 .card-rounded{
     border-radius: 15px;
 }
+
+.img-w {
+    width: 40px;
+}
+
+.img-contenedor img {
+    -webkit-transition: all 0.5s ease; /* Safari y Chrome */
+    -moz-transition: all 0.5s ease; /* Firefox */
+    -o-transition: all 0.5s ease; /* IE 9 */
+    -ms-transition: all 0.5s ease; /* Opera */
+}
+.img-contenedor:hover img {
+    -webkit-transform: scale(2);
+    -moz-transform: scale(2);
+    -ms-transform: scale(2);
+    -o-transform: scale(2);
+    transform: scale(2);
+}

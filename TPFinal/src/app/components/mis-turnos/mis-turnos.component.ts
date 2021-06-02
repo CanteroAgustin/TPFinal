@@ -34,6 +34,14 @@ export class MisTurnosComponent implements OnInit {
         querySnapshot.forEach((doc) => {
           this.turnos.push(doc.data());
         });
+        this.turnosAListar = [...this.turnos];
+      });
+    }
+
+    if (this.tipo === 'admin') {
+      this.firestoreService.getTurnos().valueChanges().subscribe(response => {
+          this.turnos = [...response];
+        this.turnosAListar = [...this.turnos];
       });
     }
   }
@@ -43,7 +51,22 @@ export class MisTurnosComponent implements OnInit {
     this.firestoreService.actualizarTurno(turno.uid, turno);
   }
 
+  rechazarTurno(turno) {
+    turno.estado = 'Rechazado';
+    this.firestoreService.actualizarTurno(turno.uid, turno);
+  }
+
+  aceptarTurno(turno) {
+    turno.estado = 'Aceptado';
+    this.firestoreService.actualizarTurno(turno.uid, turno);
+  }
+
+  finalizarTurno(turno) {
+    turno.estado = 'Finalizado';
+    this.firestoreService.actualizarTurno(turno.uid, turno);
+  }
+
   handleOnturnosFiltrados(turnos: Turnos[]) {
-    this.turnosAListar.splice(0,this.turnosAListar.length,...turnos);
+    this.turnosAListar.splice(0, this.turnosAListar.length, ...turnos);
   }
 }

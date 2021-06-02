@@ -27,6 +27,7 @@ import { RecaptchaModule, RecaptchaFormsModule } from "ng-recaptcha";
 import { ListadoEspecialidadesComponent } from './components/listado-especialidades/listado-especialidades.component';
 import { TurnosEspecialidadComponent } from './components/turnos-especialidad/turnos-especialidad.component';
 import { BusquedaComponent } from './components/busqueda/busqueda.component';
+import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { BusquedaComponent } from './components/busqueda/busqueda.component';
     MisTurnosComponent,
     ListadoEspecialidadesComponent,
     TurnosEspecialidadComponent,
-    BusquedaComponent
+    BusquedaComponent,
+    BienvenidaComponent
   ],
   imports: [
     BrowserModule,

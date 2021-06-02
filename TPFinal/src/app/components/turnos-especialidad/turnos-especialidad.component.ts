@@ -12,6 +12,7 @@ export class TurnosEspecialidadComponent implements OnInit {
   user;
   @Input() especialistasParaEsp = [];
   @Input() especialidadSeleccionada;
+  @Input() pacienteSeleccionado;
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
@@ -27,10 +28,9 @@ export class TurnosEspecialidadComponent implements OnInit {
     turno.mes = dia.mes;
     turno.especialista = especialista;
     turno.hora = hora;
-    turno.paciente = this.user;
+    turno.paciente = this.pacienteSeleccionado ? this.pacienteSeleccionado : this.user;
     turno.especialidad = this.especialidadSeleccionada;
     turno.estado = 'En espera';
     this.router.navigate(['solicitarTurnoResumen'], { queryParams: { turno: JSON.stringify(turno) }, relativeTo: this.route });
   }
-
 }

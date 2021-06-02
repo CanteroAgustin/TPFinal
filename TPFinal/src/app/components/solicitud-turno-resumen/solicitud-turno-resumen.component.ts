@@ -27,6 +27,6 @@ export class SolicitudTurnoResumenComponent implements OnInit {
         this.firestoreService.actualizarTurno(this.turno.uid, this.turno);
       }
     );
-    this.router.navigate(['home', 'misTurnos']);
+    this.router.navigate(['home']);
   }
 }
