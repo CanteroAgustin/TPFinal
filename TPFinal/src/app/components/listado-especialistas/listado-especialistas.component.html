@@ -1,0 +1,28 @@
+<div class="w-50 m-auto">
+    <app-busqueda [filtroPorEsp]='especialistasConAgenda' (onEspFiltrados)='handleOnEspFiltrados($event)'>
+    </app-busqueda>
+    <div class="m-2" *ngFor='let especialista of filtroPorEsp' (click)='seleccionarPaciente("paciente")'>
+        <div class="card border shadow-0 border-primary w-100">
+            <div class="row">
+                <span class="col-6">
+                    <div class="img-contenedor h-100">
+                        <img class="img-w1 p-1" [src]="especialista.perfil1"> <span class="text-muted">
+                            <strong>
+                                Dr.
+                                {{especialista.nombre}}
+                                {{especialista.apellido}}
+                            </strong></span>
+                    </div>
+                </span>
+                <div class="col-6">
+                    <div *ngFor='let especialidad of especialista.especialidades'>
+                        <button (click)='onSeleccionarEspecialidad(especialista, especialidad)' class="btn btn-outline-primary btn-sm w-100"><img [src]="especialidad.imgPath"
+                                class="img-w"> {{especialidad.descripcion}}</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

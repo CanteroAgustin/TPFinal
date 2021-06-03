@@ -35,7 +35,7 @@
     <div class="col-sm-6 card m-5 card-rounded btn p-0" style="width: 18rem;"
       (click)='onSeleccionInicial("especialidad")'>
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/tpfinal-4cddd.appspot.com/o/especialidades%2Fespecialidad-default.png?alt=media&token=8953e5fc-6771-43f3-8fcf-ef0374a774cd"
+        src="assets/especialidad-default.png"
         class="card-img-top p-5 pb-2 pt-4 h-75">
       <div class="card-body">
       </div>
@@ -46,7 +46,7 @@
     <div class="col-sm-6 card m-5 card-rounded btn  p-0" style="width: 18rem;"
       (click)='onSeleccionInicial("especialista")'>
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/tpfinal-4cddd.appspot.com/o/user%2Fespecialista-default.png?alt=media&token=8e3ca717-34eb-4171-8da2-b494566997c6"
+        src="assets/especialista-default.png"
         class="card-img-top p-5 pb-2 pt-4 h-75">
       <div class="card-body">
       </div>
@@ -66,4 +66,9 @@
       [especialidadSeleccionada]='especialidadSeleccionada' [pacienteSeleccionado]='pacienteSeleccionado'>
     </app-turnos-especialidad>
   </div>
+
+  <div class="" *ngIf='seleccionInicial === "especialista"'>
+    <app-listado-especialistas (onEspecialistaSelected)='handleEspecialistaSelected($event)'></app-listado-especialistas>
+  </div>
+
 </div>

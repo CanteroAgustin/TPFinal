@@ -28,6 +28,7 @@ import { ListadoEspecialidadesComponent } from './components/listado-especialida
 import { TurnosEspecialidadComponent } from './components/turnos-especialidad/turnos-especialidad.component';
 import { BusquedaComponent } from './components/busqueda/busqueda.component';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
+import { ListadoEspecialistasComponent } from './components/listado-especialistas/listado-especialistas.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { BienvenidaComponent } from './components/bienvenida/bienvenida.componen
     ListadoEspecialidadesComponent,
     TurnosEspecialidadComponent,
     BusquedaComponent,
-    BienvenidaComponent
+    BienvenidaComponent,
+    ListadoEspecialistasComponent
   ],
   imports: [
     BrowserModule,

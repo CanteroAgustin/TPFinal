@@ -160,6 +160,16 @@ export class SolicitarTurnoComponent implements OnInit {
     return agendaQuincenal;
   }
 
+  handleEspecialistaSelected(event) {
+    this.especialistasParaEsp = [];
+    let esp = event.especialista
+    esp.agendaQuincenal = this.armarAgenda(esp);
+    setTimeout(() => {
+      this.especialistasParaEsp.push(esp);
+      this.especialidadSeleccionada = event.especialidad;
+    }, 1000);
+  }
+
   handleEspecialidadSelected(especialidadSeleccionada) {
     this.especialidadSeleccionada = especialidadSeleccionada;
     this.seleccionInicial = '';
@@ -181,7 +191,7 @@ export class SolicitarTurnoComponent implements OnInit {
     this.seleccionInicial = tipo;
   }
 
-  seleccionarPaciente(paciente){
+  seleccionarPaciente(paciente) {
     this.usuarioEstaSeleccionado = true;
     this.pacienteSeleccionado = paciente;
   }

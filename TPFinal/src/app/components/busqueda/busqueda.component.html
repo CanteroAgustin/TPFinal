@@ -1,6 +1,8 @@
 <div class="d-flex mt-5 mb-3" [formGroup]="busquedaForm">
     <div class="d-flex w-75 p-0">
         <input type="text" class="form-control flex-fill" placeholder="Nombre del Médico" formControlName='medicoControl'
+            autocomplete="off" *ngIf='filtroPorEsp'>
+        <input type="text" class="form-control flex-fill" placeholder="Nombre del Médico" formControlName='medicoControl'
             autocomplete="off" *ngIf='tipo === "paciente" || tipo === "admin"'>
         <input type="text" class="form-control flex-fill" placeholder="Nombre del Paciente" formControlName='pacienteControl'
             autocomplete="off" *ngIf='tipo === "especialista" || tipo === "admin"'>
