@@ -29,6 +29,7 @@ import { TurnosEspecialidadComponent } from './components/turnos-especialidad/tu
 import { BusquedaComponent } from './components/busqueda/busqueda.component';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 import { ListadoEspecialistasComponent } from './components/listado-especialistas/listado-especialistas.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ListadoEspecialistasComponent } from './components/listado-especialista
     HttpClientModule,
     FormsModule,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

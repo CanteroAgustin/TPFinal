@@ -65,16 +65,6 @@ export class SolicitarTurnoComponent implements OnInit {
     }
   }
 
-  // onChangeEspecialidad(especialidad) {
-  //   this.especialidadSeleccionada = especialidad === 'Selecciona una especialidad' ? '' : especialidad;
-  //   if (especialidad) {
-  //     this.especialistasParaEsp = this.especialistas.filter(especialista => especialista.especialidad === especialidad);
-  //     this.especialistasParaEsp.forEach(esp => {
-  //       esp.agendaQuincenal = this.armarAgenda(esp);
-  //     });
-  //   }
-  // }
-
   armarAgenda(especialista) {
     let today = new Date();
     let day = today.getDay() - 1;

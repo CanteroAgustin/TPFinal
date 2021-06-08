@@ -11,5 +11,10 @@ export class Turnos {
     hora: string;
     especialidad: Especialidad;
     especialistaUid: string;
-    estado: string
+    estado: string;
+    diagnostico: string;
+    reseña: string;
+    calificacion: string;
+    motivoCancelacion: string;
+    motivoRechazo: string;
 }
