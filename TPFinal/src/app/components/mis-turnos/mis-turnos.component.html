@@ -40,7 +40,8 @@
                     </span>
                     <span class="badge badge-size bg-secondary btn justify-content-end ml-2px"
                         (click)='verCalificacion(turno)'
-                        *ngIf='tipo==="paciente" && !turno.calificacion && turno.estado === "Finalizado"'>Calificar atenci&oacute;n
+                        *ngIf='tipo==="paciente" && !turno.calificacion && turno.estado === "Finalizado"'>Calificar
+                        atenci&oacute;n
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-list-stars" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -49,6 +50,9 @@
                                 d="M2.242 2.194a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.256-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53zm0 4a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.255-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53zm0 4a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.255-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53z" />
                         </svg>
                     </span>
+                    <span class="badge badge-size bg-danger btn justify-content-end ml-2px" (click)='addResena(turno)'
+                        *ngIf='tipo==="especialista" && !turno["reseña"] && turno.estado === "Finalizado"'>Agregar
+                        reseña</span>
                 </div>
             </div>
         </div>
@@ -99,17 +103,60 @@
     </div>
 </div>
 
+<ng-template #modalHistoria let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            <span>Historia clinica</span>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]='modalHistoriaFormGroup'>
+            <div class="mb-3">
+                <label class="col-form-label">Altura:</label>
+                <input type="number" class="form-control" formControlName='altura'
+                    placeholder="Altura en centimetros">
+            </div>
+            <div class="mb-3">
+                <label for="message-text" class="col-form-label">Peso:</label>
+                <input type="number" class="form-control" formControlName='peso' placeholder="Peso en kilos">
+            </div>
+            <div class="mb-3">
+                <label class="col-form-label">Temperatura:</label>
+                <input type="number" class="form-control" formControlName='temperatura'
+                    placeholder="Temperatura en grados">
+            </div>
+            <div class="mb-3">
+                <label class="col-form-label">Presion:</label>
+                <input type="number" class="form-control" formControlName='presion'>
+            </div>
+            <h5>Agregar items adicionales:</h5>
+            <div class="mb-3" formArrayName="items"
+                *ngFor="let item of modalHistoriaFormGroup.get('items')['controls']; let i = index;">
+                <div [formGroupName]="i">
+                    <input class="form-control" formControlName="titulo" placeholder="Titulo">
+                    <textarea class="form-control" id="message-text" formControlName="descripcion" placeholder="Descripcion"></textarea>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-primary" (click)="addItem()">Agregar item</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button [disabled]='!modalHistoriaFormGroup.valid' type="button" class="btn btn-outline-dark"
+            (click)="guardarModalHistoria(turno)">Guardar</button>
+    </div>
+</ng-template>
+
 <ng-template #modalMensaje let-modal>
     <div class="modal-header">
         <h4 class="modal-title">
-            <span>Finalizar turno</span>
+            <span>Agregar comentarios</span>
         </h4>
     </div>
     <div class="modal-body">
         <form [formGroup]='modalFormGroup'>
             <div class="mb-3">
-                <label for="recipient-name" class="col-form-label">Diagnostico:</label>
-                <input type="text" class="form-control" id="recipient-name" formControlName='diagnosticoCtrl'>
+                <label class="col-form-label">Diagnostico:</label>
+                <input type="text" class="form-control" formControlName='diagnosticoCtrl'>
             </div>
             <div class="mb-3">
                 <label for="message-text" class="col-form-label">Comentarios:</label>
@@ -122,6 +169,7 @@
             (click)="guardarModal()">Save</button>
     </div>
 </ng-template>
+
 <ng-template #modalMensaje2 let-modal>
     <div class="modal-header">
         <h4 class="modal-title">
@@ -147,7 +195,8 @@
     <div class="modal-body">
         <form [formGroup]='modalCalificacionFormGroup'>
             <div class="mb-3">
-                <label for="message-text" class="col-form-label">Por favor, comentanos como fue la atencion del profesional:</label>
+                <label for="message-text" class="col-form-label">Por favor, comentanos como fue la atencion del
+                    profesional:</label>
                 <textarea class="form-control" id="message-text" formControlName='calificacionCtrl'></textarea>
             </div>
         </form>

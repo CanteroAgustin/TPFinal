@@ -176,7 +176,8 @@ export class AuthService {
       perfil2: userCompleto.perfil2 ? userCompleto.perfil2 : null,
       tipo: userCompleto.tipo,
       habilitado: userCompleto.tipo === 'especialista' && !userCompleto.uid ? false : true,
-      agenda: userCompleto.agenda ? userCompleto.agenda : null
+      agenda: userCompleto.agenda ? userCompleto.agenda : null,
+      historiaClinica: userCompleto.historiaClinica ? userCompleto.historiaClinica : null
     }
 
     if (userState.emailVerified) {

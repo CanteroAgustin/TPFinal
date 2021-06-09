@@ -1,5 +1,3 @@
-import { Turnos } from "./turnos";
-
 export class User {
     uid: string;
     nombre: string;
@@ -17,7 +15,7 @@ export class User {
     ];
     perfil1: string;
     perfil2: string;
-    tipo: string
+    tipo: string;
     habilitado: boolean;
     emailVerified: boolean;
     agenda: {
@@ -29,5 +27,12 @@ export class User {
                 noche: boolean;
             }
         ];
+    };
+    historiaClinica: {
+        altura,
+        peso,
+        presion,
+        temperatura,
+        items: any[]
     };
 }

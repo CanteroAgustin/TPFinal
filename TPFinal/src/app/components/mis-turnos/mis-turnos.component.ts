@@ -3,7 +3,7 @@ import { Turnos } from 'src/app/models/turnos';
 import { User } from 'src/app/models/user';
 import { FirestoreService } from 'src/app/services/firebase/firestore.service';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-mis-turnos',
@@ -17,18 +17,27 @@ export class MisTurnosComponent implements OnInit {
   user: User;
   tipo;
   turno: Turnos;
+  users;
 
   @ViewChild('modalMensaje') modal: ElementRef;
   @ViewChild('modalMensaje2') modal2: ElementRef;
   @ViewChild('modalCalificacion') modalCalificacion: ElementRef;
   @ViewChild('modalCancelar') modalCancelar: ElementRef;
   @ViewChild('modalRechazar') modalRechazar: ElementRef;
+  @ViewChild('modalHistoria') modalHistoria: ElementRef;
 
   diagnosticoCtrl = new FormControl('', Validators.required);
   resenaCtrl = new FormControl('', Validators.required);
   calificacionCtrl = new FormControl('', [Validators.required, Validators.minLength(4)]);
   motivoCancelacionCtrl = new FormControl('', [Validators.required, Validators.minLength(4)]);
   motivoRechazoCtrl = new FormControl('', [Validators.required, Validators.minLength(4)]);
+  altura = new FormControl('', Validators.required);
+  peso = new FormControl('', Validators.required);
+  temperatura = new FormControl('', Validators.required);
+  presion = new FormControl('', Validators.required);
+
+  modalHistoriaFormGroup = new FormGroup({});
+  items: FormArray;
 
   modalCancelarFormGroup = new FormGroup({
     motivoCancelacionCtrl: this.motivoCancelacionCtrl
@@ -47,9 +56,19 @@ export class MisTurnosComponent implements OnInit {
     calificacionCtrl: this.calificacionCtrl
   });
 
-  constructor(private firestoreService: FirestoreService, private modalService: NgbModal) { }
+  constructor(private firestoreService: FirestoreService, private modalService: NgbModal, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.firestoreService.getAllUsers().valueChanges().subscribe(response => {
+      this.users = response;
+    });
+    this.modalHistoriaFormGroup = this.formBuilder.group({
+      altura: this.altura,
+      peso: this.peso,
+      temperatura: this.temperatura,
+      presion: this.presion,
+      items: this.formBuilder.array([this.createItem()])
+    });
     this.user = JSON.parse(localStorage.getItem('user'));
     this.tipo = this.user.tipo;
     if (this.tipo === 'paciente') {
@@ -95,11 +114,10 @@ export class MisTurnosComponent implements OnInit {
 
   finalizarTurno(turno) {
     this.turno = turno;
-    this.modalService.open(this.modal);
+    this.modalService.open(this.modalHistoria);
   }
 
   guardarModal() {
-    this.turno.estado = 'Finalizado';
     this.turno.diagnostico = this.diagnosticoCtrl.value;
     this.turno.reseña = this.resenaCtrl.value;
     this.firestoreService.actualizarTurno(this.turno.uid, this.turno);
@@ -146,5 +164,56 @@ export class MisTurnosComponent implements OnInit {
 
   verEncuesta(turno) {
 
+  }
+
+  addResena(turno) {
+    this.turno = turno;
+    this.modalService.open(this.modal);
+  }
+
+  guardarModalHistoria(turno) {
+    this.turno = turno;
+    this.turno.estado = 'Finalizado';
+    let paciente;
+    this.users.forEach(user => {
+      if(user['uid'] === this.turno.paciente.uid){
+        paciente = user;
+      }
+    });
+
+    if (paciente.historiaClinica) {
+      let historia = this.modalHistoriaFormGroup.value;
+      this.turno.paciente.historiaClinica = {...paciente.historiaClinica};
+      this.turno.paciente.historiaClinica.altura = historia.altura;
+      this.turno.paciente.historiaClinica.peso = historia.peso;
+      this.turno.paciente.historiaClinica.presion = historia.presion;
+      this.turno.paciente.historiaClinica.temperatura = historia.temperatura;
+      if (this.turno.paciente.historiaClinica.items) {
+        historia.items.forEach(item => {
+          this.turno.paciente.historiaClinica.items.push(item);
+        });
+      } else {
+        this.turno.paciente.historiaClinica.items = [...historia.items]
+      }
+
+    } else {
+      this.turno.paciente.historiaClinica = this.modalHistoriaFormGroup.value;
+    }
+
+    this.firestoreService.actualizarTurno(this.turno.uid, this.turno);
+    this.firestoreService.actualizarUsuarios(this.turno.paciente.uid, this.turno.paciente);
+    this.modalService.dismissAll();
+  }
+
+  createItem(): FormGroup {
+    return this.formBuilder.group({
+      titulo: new FormControl(''),
+      descripcion: new FormControl(''),
+    });
+  }
+
+  addItem(): void {
+    this.items = this.modalHistoriaFormGroup.get('items') as FormArray;
+    this.items.push(this.createItem());
   }
 }
