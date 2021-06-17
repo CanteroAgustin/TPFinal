@@ -17,4 +17,5 @@ export class Turnos {
     calificacion: string;
     motivoCancelacion: string;
     motivoRechazo: string;
+    encuesta;
 }

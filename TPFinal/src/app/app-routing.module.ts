@@ -5,8 +5,10 @@ import { ForgotPasswordComponent } from './components/autenticacion/forgot-passw
 import { SignInComponent } from './components/autenticacion/sign-in/sign-in.component';
 import { SignUpComponent } from './components/autenticacion/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './components/autenticacion/verify-email/verify-email.component';
+import { HistoriaClinicaComponent } from './components/historia-clinica/historia-clinica.component';
 import { HomeComponent } from './components/home/home.component';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
+import { PacientesComponent } from './components/pacientes/pacientes.component';
 import { PageNoTFoundComponent } from './components/page-no-tfound/page-no-tfound.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { SolicitarTurnoComponent } from './components/solicitar-turno/solicitar-turno.component';
@@ -29,7 +31,9 @@ const routes: Routes = [
         ]
       },
       { path: 'agenda', component: AgendaComponent },
-      { path: 'misTurnos', component: MisTurnosComponent }
+      { path: 'misTurnos', component: MisTurnosComponent },
+      { path: 'historia-clinica', component: HistoriaClinicaComponent },
+      { path: 'pacientes', component: PacientesComponent }
     ]
   },
   { path: 'sign-in', component: SignInComponent },

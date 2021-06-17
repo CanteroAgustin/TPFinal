@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Turnos } from 'src/app/models/turnos';
 import { User } from 'src/app/models/user';
 import { FirestoreService } from 'src/app/services/firebase/firestore.service';
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-mis-turnos',
@@ -21,10 +21,12 @@ export class MisTurnosComponent implements OnInit {
 
   @ViewChild('modalMensaje') modal: ElementRef;
   @ViewChild('modalMensaje2') modal2: ElementRef;
+  @ViewChild('modalMensaje3') modal3: ElementRef;
   @ViewChild('modalCalificacion') modalCalificacion: ElementRef;
   @ViewChild('modalCancelar') modalCancelar: ElementRef;
   @ViewChild('modalRechazar') modalRechazar: ElementRef;
   @ViewChild('modalHistoria') modalHistoria: ElementRef;
+  @ViewChild('modalEncuesta') modalEncuesta: ElementRef;
 
   diagnosticoCtrl = new FormControl('', Validators.required);
   resenaCtrl = new FormControl('', Validators.required);
@@ -35,6 +37,15 @@ export class MisTurnosComponent implements OnInit {
   peso = new FormControl('', Validators.required);
   temperatura = new FormControl('', Validators.required);
   presion = new FormControl('', Validators.required);
+  atencionPersonal = new FormControl('', Validators.required);
+  atencionProfesional = new FormControl('', Validators.required);
+  estadoClinica = new FormControl('', Validators.required);
+
+  modalEncuestaFormGroup = new FormGroup({
+    atencionPersonal: this.atencionPersonal,
+    atencionProfesional: this.atencionProfesional,
+    estadoClinica: this.estadoClinica
+  });
 
   modalHistoriaFormGroup = new FormGroup({});
   items: FormArray;
@@ -56,7 +67,7 @@ export class MisTurnosComponent implements OnInit {
     calificacionCtrl: this.calificacionCtrl
   });
 
-  constructor(private firestoreService: FirestoreService, private modalService: NgbModal, private formBuilder: FormBuilder) { }
+  constructor(private firestoreService: FirestoreService, private modalService: NgbModal, private formBuilder: FormBuilder, private zone: NgZone) { }
 
   ngOnInit(): void {
     this.firestoreService.getAllUsers().valueChanges().subscribe(response => {
@@ -72,20 +83,29 @@ export class MisTurnosComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.tipo = this.user.tipo;
     if (this.tipo === 'paciente') {
-      this.firestoreService.getTurnosDePeciente(this.user.uid).then((querySnapshot) => {
+      let query = this.firestoreService.getTurnosDePeciente(this.user.uid);
+      query.onSnapshot((querySnapshot) => {
+        this.turnos.splice(0, this.turnos.length);
         querySnapshot.forEach((doc) => {
           this.turnos.push(doc.data());
         });
-        this.turnosAListar = [...this.turnos];
+        this.zone.run(() => {
+          this.turnosAListar = [...this.turnos];
+        });
       });
     }
 
     if (this.tipo === 'especialista') {
-      this.firestoreService.getTurnosDeEspecialista(this.user.uid).then((querySnapshot) => {
+
+      let query = this.firestoreService.getTurnosDeEspecialista(this.user.uid);
+      query.onSnapshot((querySnapshot) => {
+        this.turnos.splice(0, this.turnos.length);
         querySnapshot.forEach((doc) => {
           this.turnos.push(doc.data());
         });
-        this.turnosAListar = [...this.turnos];
+        this.zone.run(() => {
+          this.turnosAListar = [...this.turnos];
+        });
       });
     }
 
@@ -133,6 +153,11 @@ export class MisTurnosComponent implements OnInit {
     this.modalService.open(this.modal2);
   }
 
+  mostrarEncuesta(turno) {
+    this.turno = turno;
+    this.modalService.open(this.modal3);
+  }
+
   CerrarModal() {
     this.modalService.dismissAll();
   }
@@ -163,7 +188,8 @@ export class MisTurnosComponent implements OnInit {
   }
 
   verEncuesta(turno) {
-
+    this.turno = turno;
+    this.modalService.open(this.modalEncuesta);
   }
 
   addResena(turno) {
@@ -176,14 +202,14 @@ export class MisTurnosComponent implements OnInit {
     this.turno.estado = 'Finalizado';
     let paciente;
     this.users.forEach(user => {
-      if(user['uid'] === this.turno.paciente.uid){
+      if (user['uid'] === this.turno.paciente.uid) {
         paciente = user;
       }
     });
 
     if (paciente.historiaClinica) {
       let historia = this.modalHistoriaFormGroup.value;
-      this.turno.paciente.historiaClinica = {...paciente.historiaClinica};
+      this.turno.paciente.historiaClinica = { ...paciente.historiaClinica };
       this.turno.paciente.historiaClinica.altura = historia.altura;
       this.turno.paciente.historiaClinica.peso = historia.peso;
       this.turno.paciente.historiaClinica.presion = historia.presion;
@@ -215,5 +241,12 @@ export class MisTurnosComponent implements OnInit {
   addItem(): void {
     this.items = this.modalHistoriaFormGroup.get('items') as FormArray;
     this.items.push(this.createItem());
+  }
+
+  guardarModalEncuesta() {
+    this.turno.encuesta = this.modalEncuestaFormGroup.value;
+    this.firestoreService.actualizarTurno(this.turno.uid, this.turno);
+    this.firestoreService.guardarEncuesta(this.turno.encuesta);
+    this.modalService.dismissAll();
   }
 }

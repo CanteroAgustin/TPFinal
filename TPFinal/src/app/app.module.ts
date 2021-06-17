@@ -30,6 +30,9 @@ import { BusquedaComponent } from './components/busqueda/busqueda.component';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 import { ListadoEspecialistasComponent } from './components/listado-especialistas/listado-especialistas.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HistoriaClinicaComponent } from './components/historia-clinica/historia-clinica.component';
+import { PacientesComponent } from './components/pacientes/pacientes.component';
+import { TooltipDirective } from './directives/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TurnosEspecialidadComponent,
     BusquedaComponent,
     BienvenidaComponent,
-    ListadoEspecialistasComponent
+    ListadoEspecialistasComponent,
+    HistoriaClinicaComponent,
+    PacientesComponent,
+    TooltipDirective
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ export class FirestoreService {
   collectionPathUsers = '/users';
   collectionPathTurnos = '/turnos';
   collectionPathEspecialidades = '/especialidades';
+  collectionPathEncuestas = '/encuestas';
 
   constructor(private firestore: AngularFirestore) {
 
@@ -47,37 +48,44 @@ export class FirestoreService {
     return this.collection;
   }
 
-  getAllEspecialidades(){
+  getAllEspecialidades() {
     this.collection = this.firestore.collection(this.collectionPathEspecialidades);
     return this.collection;
   }
 
-  getEspecialistasConAgenda(){
+  getEspecialistasConAgenda() {
     const usersRef = this.firestore.collection(this.collectionPathUsers).ref;
     var query = usersRef.where("tipo", "==", "especialista").where("agenda", "!=", null);
     return query.get();
   }
 
-  getPacientes(){
+  getPacientes() {
     const usersRef = this.firestore.collection(this.collectionPathUsers).ref;
     var query = usersRef.where("tipo", "==", "paciente");
     return query.get();
   }
 
-  getTurnosDePeciente(uid){
+  getTurnosDePeciente(uid) {
     const usersRef = this.firestore.collection(this.collectionPathTurnos).ref;
     var query = usersRef.where("paciente.uid", "==", uid);
-    return query.get();
+    return query;
   }
 
-  getTurnosDeEspecialista(uid){
+  getTurnosDeEspecialista(uid) {
     const usersRef = this.firestore.collection(this.collectionPathTurnos).ref;
     var query = usersRef.where("especialista.uid", "==", uid);
-    return query.get();
+    return query;
   }
 
   actualizarTurno(id: any, datos: any): Promise<void> {
     this.collection = this.firestore.collection(this.collectionPathTurnos);
     return this.collection.doc(id).update(datos);
   }
+
+  guardarEncuesta(encuesta: any) {
+    this.collection = this.firestore.collection(this.collectionPathEncuestas);
+    return this.collection.add({ ...encuesta });
+  }
+
 }
+
