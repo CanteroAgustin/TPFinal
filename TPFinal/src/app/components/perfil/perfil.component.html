@@ -2,7 +2,9 @@
     <div class="col-2 d-none d-sm-block text-center">
         <img class="w-75 m-3" [src]="user.perfil1" alt="">
         <strong *ngIf='user.tipo === "admin"' class="text-primary">Administrador</strong>
+        <strong class="text-primary" *ngIf='user.tipo === "especialista"'>Especialista</strong>
     </div>
+    
     <div class="col-6 p-4 d-flex flex-column position-static">
         <h2><strong>{{user.nombre}} {{user.apellido}}</strong></h2>
         <h5 class="text-secondary"><strong>{{user.email}}</strong></h5>
@@ -10,6 +12,10 @@
         <h5 class="text-secondary" *ngIf='user.obraSocial'><strong>Obra social: </strong>{{user.obraSocial}}</h5>
         <h5 class="text-secondary" *ngIf='user.especialidad'><strong>Especialidad: </strong>{{user.especialidad}}</h5>
         <img class="perfil2" *ngIf='user.perfil2' [src]="user.perfil2" alt="">
+        <div *ngIf='user.tipo === "especialista" && user.especialidades' >
+            <p>Especialidades: </p>
+            <span *ngFor='let especialidad of user.especialidades'><img class="w-50px" [src]="especialidad.imgPath" alt=""> {{especialidad.descripcion}} </span>
+        </div>
     </div>
     <div class="col-4 p-2 d-flex flex-column position-static">
         <button class="btn btn-primary" *ngIf='user.tipo === "paciente" && user.historiaClinica' (click)='verHistoria()'>Mi historia clinica</button>
