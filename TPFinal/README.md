@@ -30,7 +30,7 @@ Desde el menú principial se puede acceder a las diferentes pantallas del sistem
 ![login](src/assets/prints/login.png "Formulario de login")
 - Perfil: Pantalla con datos personales del usuario personalizado según rol.
 ![Perfil](src/assets/prints/perfil.png "Sector perfil")
--Menu
+- Menu: Comodo menu con todas las acciones al alcance de un click.
 ![Menu](src/assets/prints/menu.png "Menu de la aplicacion")
 
 ## Cartilla medica
