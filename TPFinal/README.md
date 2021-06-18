@@ -27,7 +27,7 @@ Desde el menú principial se puede acceder a las diferentes pantallas del sistem
 - Registro : Formularios para ingresar datos de paciente y de profesional.
 ![Registro](assets/prints/registro.png "Formulario de registro")
 - Login: Ingreso para usuarios ya registrados con validación de datos
-![login](https://github.com/CanteroAgustin/TPFinal/tree/master/TPFinal/src/assets/prints/login.png "Formulario de registro")
+![login](https://github.com/CanteroAgustin/TPFinal/tree/master/TPFinal/src/assets/prints/login.png)
 - Perfil: Pantalla con datos personales del usuario personalizado según rol.
 ![Perfil](assets/prints/perfil.png "Sector perfil")
 -Menu
