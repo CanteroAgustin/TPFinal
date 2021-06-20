@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Img, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
+import pdfFonts from "pdfmake/build/vfs_fonts";
 import { User } from 'src/app/models/user';
 import { PacienteService } from 'src/app/services/paciente.service';
-import { PdfMakeWrapper, Img, Txt } from 'pdfmake-wrapper';
-import pdfFonts from "pdfmake/build/vfs_fonts";
 
 @Component({
   selector: 'app-historia-clinica',
@@ -16,7 +16,7 @@ export class HistoriaClinicaComponent implements OnInit {
   perfilImg;
   nombre;
   paciente: User;
-  fileName= 'ExcelSheet.xlsx';
+  fileName = 'ExcelSheet.xlsx';
 
   constructor(private pacientesService: PacienteService) {
     (window as any).pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -37,24 +37,46 @@ export class HistoriaClinicaComponent implements OnInit {
   async generatePdf() {
     const pdf = new PdfMakeWrapper();
     pdf.pageMargins([40, 60, 40, 60]);
-    pdf.add(await (await new Img(this.paciente.perfil1).alignment('center').width('100').build()));
+    pdf.header(await (await new Img('assets/logo.png').alignment('center').width('100').build()));
+    pdf.add(" ");
+    pdf.add(" ");
+    pdf.add(" ");
+    pdf.add({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }] });
     pdf.add(
       new Txt('Historia clinica').bold().alignment('center').fontSize(42).end
     );
+    pdf.add({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }] });
+    pdf.add(" ");
+    pdf.add(await (await new Img(this.paciente.perfil1).width('100').build()));
     pdf.add(" ");
     pdf.add(" ");
     pdf.add(new Txt('Perfil del paciente').bold().fontSize(20).end);
-    pdf.add({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }] });
     pdf.add(" ");
-    pdf.add("Nombre: " + this.paciente.nombre + " " + this.paciente.apellido);
-    pdf.add("Altura: " + this.historia.altura);
-    pdf.add("Peso: " + this.historia.peso);
-    pdf.add("Temperatura: " + this.historia.temperatura);
-    pdf.add("Presion: " + this.historia.presion);
+    pdf.add(new Table([
+      [
+        new Txt("Nombre: ").bold().end,
+        new Txt(`${this.paciente.nombre} ${this.paciente.apellido}`).end
+      ],
+      [
+        new Txt("Altura: ").bold().end,
+        new Txt(this.historia.altura).end
+      ],
+      [
+        new Txt("Peso: ").bold().end,
+        new Txt(this.historia.peso).end
+      ],
+      [
+        new Txt("Temperatura: ").bold().end,
+        new Txt(this.historia.temperatura).end
+      ],
+      [
+        new Txt("Presion: ").bold().end,
+        new Txt(this.historia.presion).end
+      ]
+    ]).end);
     pdf.add(" ");
     pdf.add(" ");
     pdf.add(new Txt('Datos adicionales').bold().fontSize(20).end);
-    pdf.add({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1 }] });
     pdf.add(" ");
     this.historia.items.forEach(item => {
       pdf.add(item.titulo + ": " + item.descripcion);
