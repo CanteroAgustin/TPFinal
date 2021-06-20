@@ -73,3 +73,7 @@ Pantalla de configuracion de datos personales y opciones para cada perfil de usu
 Para observar una demo de la aplicación se puede ingresar al siguiente link y utilizar los perfiles pre-cargados de diferentes usuarios para explorar la funcionalidad de los diferentes roles en una experiencia de uso real.
 
 ## https://tpfinal-4cddd.web.app
+
+# :information_source: Construido con:
+* [Angular](https://angular.io/)
+* [Bootstrap](https://getbootstrap.com/)
