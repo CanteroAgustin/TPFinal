@@ -30,7 +30,7 @@ Desde el menú principial se puede acceder a las diferentes pantallas del sistem
 - Turnos: Pantalla con el detalle completo de los turnos.
 - Solicitud de turnos: Pantalla para alta de turnos 
 - Menu
-![Menu](assets/prints/menu.png "Menu de la aplicacion")
+![Menu](src/assets/prints/menu.png "Menu de la aplicacion")
 
 ## Login de usuario
 
@@ -44,19 +44,19 @@ Ingreso de usuarios según perfil con datos validados con las ultimas tecnologia
 
 - Cada usuario deberá ingresar sus datos personales y datos correspondientes a su rol como usuario.
 
-![Registro](assets/prints/registro.png "Formulario de registro")
+![Registro](src/assets/prints/registro.png "Formulario de registro")
 
 ## Solicitud de turnos
 
 Desde esta pantalla podra solicitar un turno con solo 3 clicks.
-![Solicitar turno](assets/gifs/solicitarturno.gif "Solicitar turno")
+![Solicitar turno](src/assets/gifs/solicitarturno.gif "Solicitar turno")
 
 ## Detalle de los turnos
 
 Menu con detalle de cada turno con opciones que permiten una completa interaccion.
 
 - Filtro según estado del turno, dato a buscar o valor a buscar.
-![Turnos](assets/prints/turnos.png "Detalle de turnos")
+![Turnos](src/assets/prints/turnos.png "Detalle de turnos")
 
 ## Menu de Perfil
 
@@ -64,7 +64,7 @@ Pantalla de configuracion de datos personales y opciones para cada perfil de usu
 
 - Cada menú es personalizado según el rol.
 
-![Perfil](assets/prints/perfil.png "Sector perfil")
+![Perfil](src/assets/prints/perfil.png "Sector perfil")
 
 
 # :information_source: Link de ejemplo
