@@ -25,11 +25,18 @@ Menu principal instintivo para una fácil navegación
 
 Desde el menú principial se puede acceder a las diferentes pantallas del sistema.
 - Registro : Formularios para ingresar datos de paciente y de profesional.
-- Login: Ingreso para usuarios ya registrados con validación de datos
-![login](src/assets/prints/login.png)
+- Login: Ingreso para usuarios ya registrados con validación de datos.
 - Perfil: Pantalla con datos personales del usuario personalizado según rol.
--Menu
+- Turnos: Pantalla con el detalle completo de los turnos.
+- Solicitud de turnos: Pantalla para alta de turnos 
+- Menu
 ![Menu](assets/prints/menu.png "Menu de la aplicacion")
+
+## Login de usuario
+
+Acceso al sistema segun el rol.
+
+![login](src/assets/prints/login.png "Formulario de login")
 
 ## Registro de usuario
 
@@ -38,6 +45,11 @@ Ingreso de usuarios según perfil con datos validados con las ultimas tecnologia
 - Cada usuario deberá ingresar sus datos personales y datos correspondientes a su rol como usuario.
 
 ![Registro](assets/prints/registro.png "Formulario de registro")
+
+## Solicitud de turnos
+
+Desde esta pantalla podra solicitar un turno con solo 3 clicks.
+![Solicitar turno](assets/gifs/solicitarturno.gif "Solicitar turno")
 
 ## Detalle de los turnos
 
