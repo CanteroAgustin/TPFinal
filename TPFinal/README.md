@@ -57,7 +57,8 @@ Desde esta pantalla podra solicitar un turno con solo 3 clicks.
 Menu con detalle de cada turno con opciones que permiten una completa interaccion.
 
 - Filtro según estado del turno, dato a buscar o valor a buscar.
-![Turnos](src/assets/prints/gestionturnos.gif "Detalle de turnos")
+
+![Turnos](src/assets/gifs/gestionturnos.gif "Detalle de turnos")
 
 ## Menu de Perfil
 
