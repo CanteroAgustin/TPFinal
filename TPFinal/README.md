@@ -25,17 +25,11 @@ Menu principal instintivo para una fácil navegación
 
 Desde el menú principial se puede acceder a las diferentes pantallas del sistema.
 - Registro : Formularios para ingresar datos de paciente y de profesional.
-![Registro](assets/prints/registro.png "Formulario de registro")
 - Login: Ingreso para usuarios ya registrados con validación de datos
 ![login](src/assets/prints/login.png)
 - Perfil: Pantalla con datos personales del usuario personalizado según rol.
-![Perfil](assets/prints/perfil.png "Sector perfil")
 -Menu
 ![Menu](assets/prints/menu.png "Menu de la aplicacion")
-
-## Cartilla medica
-
-Listado de profesionales con filtros para mayor detalle
 
 ## Registro de usuario
 
@@ -43,19 +37,22 @@ Ingreso de usuarios según perfil con datos validados con las ultimas tecnologia
 
 - Cada usuario deberá ingresar sus datos personales y datos correspondientes a su rol como usuario.
 
+![Registro](assets/prints/registro.png "Formulario de registro")
 
 ## Detalle de los turnos
 
 Menu con detalle de cada turno con opciones que permiten una completa interaccion.
 
 - Filtro según estado del turno, dato a buscar o valor a buscar.
+![Turnos](assets/prints/turnos.png "Detalle de turnos")
 
 ## Menu de Perfil
 
 Pantalla de configuracion de datos personales y opciones para cada perfil de usuario
 
-- En el menú de perfil se podrán modificar los datos personales del usuario. 
-Cada menú es personalizado según el rol.
+- Cada menú es personalizado según el rol.
+
+![Perfil](assets/prints/perfil.png "Sector perfil")
 
 
 # :information_source: Link de ejemplo
