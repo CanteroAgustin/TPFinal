@@ -30,6 +30,7 @@ Desde el menú principial se puede acceder a las diferentes pantallas del sistem
 - Turnos: Pantalla con el detalle completo de los turnos.
 - Solicitud de turnos: Pantalla para alta de turnos 
 - Menu
+
 ![Menu](src/assets/prints/menu.png "Menu de la aplicacion")
 
 ## Login de usuario
