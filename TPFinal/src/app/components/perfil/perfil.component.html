@@ -20,4 +20,7 @@
     <div class="col-4 p-2 d-flex flex-column position-static">
         <button class="btn btn-primary" *ngIf='user.tipo === "paciente" && user.historiaClinica' (click)='verHistoria()'>Mi historia clinica</button>
     </div>
+    <div>
+        <app-perfil-fab></app-perfil-fab>
+    </div>
 </div>

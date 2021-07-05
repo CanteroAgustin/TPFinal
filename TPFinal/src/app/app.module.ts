@@ -33,6 +33,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HistoriaClinicaComponent } from './components/historia-clinica/historia-clinica.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
 import { TooltipDirective } from './directives/tooltip.directive';
+import { PerfilFabComponent } from './components/perfil-fab/perfil-fab.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { TooltipDirective } from './directives/tooltip.directive';
     ListadoEspecialistasComponent,
     HistoriaClinicaComponent,
     PacientesComponent,
-    TooltipDirective
+    TooltipDirective,
+    PerfilFabComponent
   ],
   imports: [
     BrowserModule,
