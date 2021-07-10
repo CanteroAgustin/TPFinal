@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Img, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { User } from 'src/app/models/user';
@@ -18,18 +19,19 @@ export class HistoriaClinicaComponent implements OnInit {
   paciente: User;
   fileName = 'ExcelSheet.xlsx';
 
-  constructor(private pacientesService: PacienteService) {
+  constructor(private pacientesService: PacienteService, private rutaActiva: ActivatedRoute) {
     (window as any).pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
 
   ngOnInit(): void {
+    this.historia = JSON.parse(this.rutaActiva.snapshot.params.historia);
     this.user = JSON.parse(localStorage.getItem('user'));
     if (this.user.tipo === 'paciente') {
       this.paciente = { ...this.user };
     } else {
       this.paciente = this.pacientesService.getPaciente();
     }
-    this.historia = this.paciente.historiaClinica;
+    //this.historia = this.paciente.historiaClinica;
     this.perfilImg = this.paciente.perfil1;
     this.nombre = `${this.paciente.nombre} ${this.paciente.apellido}`;
   }
@@ -74,6 +76,10 @@ export class HistoriaClinicaComponent implements OnInit {
         new Txt(this.historia.presion).end
       ]
     ]).end);
+    pdf.add(" ");
+    pdf.add(" ");
+    pdf.add(new Txt('Especialista').bold().fontSize(20).end);
+    pdf.add(new Txt(`${this.historia.especialista.nombre} ${this.historia.especialista.apellido}`).end); 
     pdf.add(" ");
     pdf.add(" ");
     pdf.add(new Txt('Datos adicionales').bold().fontSize(20).end);

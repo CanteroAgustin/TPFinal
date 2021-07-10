@@ -1,8 +1,21 @@
 .perfil2{
-    max-width: 15%;
+    max-width: 30%;
     max-height: 50%;
 }
 
 .w-50px {
     width: 50px;
+}
+
+.avatar{
+    width: 75px;
+    height: 75px;
+    border-radius: 100%;
+    padding: 6px !important;
+}
+
+.buttonContainer{
+    display: inline-block;
+    margin: 5px;
+    text-align: center;
 }

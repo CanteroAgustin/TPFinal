@@ -19,7 +19,7 @@ export class PerfilComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
-  verHistoria(){
-    this.router.navigate(['home','historia-clinica']);
+  verHistoria(historia) {
+    this.router.navigate(['home', 'historia-clinica', JSON.stringify(historia)]);
   }
 }

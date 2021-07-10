@@ -1,25 +1,37 @@
-<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative m-5 bg-light w-50 m-auto mt-5">
+<div
+    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative m-5 bg-light w-50 m-auto mt-5">
     <div class="col-2 d-none d-sm-block text-center">
         <img class="w-75 m-3" [src]="user.perfil1" alt="">
         <strong *ngIf='user.tipo === "admin"' class="text-primary">Administrador</strong>
         <strong class="text-primary" *ngIf='user.tipo === "especialista"'>Especialista</strong>
     </div>
-    
+
     <div class="col-6 p-4 d-flex flex-column position-static">
         <h2><strong>{{user.nombre}} {{user.apellido}}</strong></h2>
         <h5 class="text-secondary"><strong>{{user.email}}</strong></h5>
         <h5 class="text-secondary"><strong>DNI: </strong>{{user.dni}}</h5>
         <h5 class="text-secondary" *ngIf='user.obraSocial'><strong>Obra social: </strong>{{user.obraSocial}}</h5>
         <h5 class="text-secondary" *ngIf='user.especialidad'><strong>Especialidad: </strong>{{user.especialidad}}</h5>
-        <img class="perfil2" *ngIf='user.perfil2' [src]="user.perfil2" alt="">
-        <div *ngIf='user.tipo === "especialista" && user.especialidades' >
+        <div *ngIf='user.perfil2'>
+            <h5 class="text-secondary" *ngIf='user.perfil2'>Mi foto para mostrar</h5>
+            <img class="perfil2" [src]="user.perfil2" alt="">
+        </div>
+        <div *ngIf='user.tipo === "especialista" && user.especialidades'>
             <p>Especialidades: </p>
-            <span *ngFor='let especialidad of user.especialidades'><img class="w-50px" [src]="especialidad.imgPath" alt=""> {{especialidad.descripcion}} </span>
+            <span *ngFor='let especialidad of user.especialidades'><img class="w-50px" [src]="especialidad.imgPath"
+                    alt=""> {{especialidad.descripcion}} </span>
         </div>
     </div>
-    <div class="col-4 p-2 d-flex flex-column position-static">
-        <button class="btn btn-primary" *ngIf='user.tipo === "paciente" && user.historiaClinica' (click)='verHistoria()'>Mi historia clinica</button>
+
+    <div *ngIf='user.tipo === "paciente"' class="m-3">
+        <h4>Historia clinica por especialista</h4>
+        <p class="text-muted">Seleccione un especialista para ver la historia clinica</p>
+        <div *ngFor='let historia of user.historiaClinica' class="buttonContainer" (click)='verHistoria(historia)'>
+                <img [src]="historia.especialista.perfil1" alt="imagen de perfil" class="img-thumbnail avatar btn">
+                <p>{{historia.especialista.nombre}} {{historia.especialista.apellido}}</p>
+        </div>
     </div>
+
     <div *ngIf='user.tipo === "admin"'>
         <app-perfil-fab></app-perfil-fab>
     </div>
