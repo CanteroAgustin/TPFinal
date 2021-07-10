@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
 export class PerfilFabComponent implements OnInit {
 
   pacientes = [];
-  toogle = false;
+  toogle = true;
   loading = false;
   fileName = '-Turnos.xlsx';
 

@@ -206,28 +206,34 @@ export class MisTurnosComponent implements OnInit {
         paciente = user;
       }
     });
-
-    if (paciente.historiaClinica) {
-      let historia = this.modalHistoriaFormGroup.value;
-      this.turno.paciente.historiaClinica = { ...paciente.historiaClinica };
-      this.turno.paciente.historiaClinica.altura = historia.altura;
-      this.turno.paciente.historiaClinica.peso = historia.peso;
-      this.turno.paciente.historiaClinica.presion = historia.presion;
-      this.turno.paciente.historiaClinica.temperatura = historia.temperatura;
-      if (this.turno.paciente.historiaClinica.items) {
-        historia.items.forEach(item => {
-          this.turno.paciente.historiaClinica.items.push(item);
-        });
-      } else {
-        this.turno.paciente.historiaClinica.items = [...historia.items]
+    let especialista = this.user;
+    let existeParaEspecialista = false;
+    paciente.historiaClinica.forEach(historia => {
+      if (historia.especialista.uid === this.user.uid) {
+        existeParaEspecialista = true;
+        let formData = this.modalHistoriaFormGroup.value;
+        paciente.historia
+        historia.altura = formData.altura;
+        historia.peso = historia.peso;
+        historia.presion = historia.presion;
+        historia.temperatura = historia.temperatura;
+        if (historia.items) {
+          formData.items.forEach(item => {
+            historia.items.push(item);
+          });
+        } else {
+          historia.items = [...formData.items]
+        }
+        this.turno.paciente = paciente;
       }
+    });
 
-    } else {
-      this.turno.paciente.historiaClinica = this.modalHistoriaFormGroup.value;
+    if (!existeParaEspecialista) {
+      paciente.historiaClinica.push({ ...this.modalHistoriaFormGroup.value, especialista });
     }
 
     this.firestoreService.actualizarTurno(this.turno.uid, this.turno);
-    this.firestoreService.actualizarUsuarios(this.turno.paciente.uid, this.turno.paciente);
+    this.firestoreService.actualizarUsuarios(paciente.uid, paciente);
     this.modalService.dismissAll();
   }
 

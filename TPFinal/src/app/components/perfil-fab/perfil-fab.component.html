@@ -6,44 +6,50 @@
         </div>
         <div *ngIf='!loading' class="accordion" id="accordionExample">
             <div *ngFor='let paciente of pacientes; let i = index'>
-                <img [src]="paciente.perfil1" alt="imagen de perfil"
-                    class="accordion-button collapsed img-thumbnail avatar btn" data-bs-toggle="collapse"
-                    [attr.data-bs-target]="'#collapse'+i" aria-expanded="true" [attr.aria-controls]="'collapse'+i">
-                <p>{{paciente.nombre}} {{paciente.apellido}}</p>
-                <div [id]="'collapse'+i" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body ps-0">
-                        <h4 class="bg-primary white">Turnos del paciente</h4>
-                        <div *ngFor='let turno of paciente.turnos'>
-                            <div class="border border-primary ps-1 pe-3 pt-1">
-                                <div class="row">
-                                    <span class="col-6"><strong class="text-muted">Fecha:</strong> {{turno.diaNombre}}
-                                        {{turno.dia}} de {{turno.mes}} {{turno.hora}}hs</span>
-                                    <span class="col-3"></span>
-                                    <span class="col-2 badge badge-size"
-                                        [tooltip]="turno.estado === 'Cancelado' ? turno.motivoCancelacion : turno.estado === 'Rechazado' ? turno.motivoRechazo : null"
-                                        placement="bottom" delay="100" [ngClass]="{
+                <div *ngIf='paciente.turnos.length > 0'>
+                    <img [src]="paciente.perfil1" alt="imagen de perfil"
+                        class="accordion-button collapsed img-thumbnail avatar btn" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#collapse'+i" aria-expanded="true" [attr.aria-controls]="'collapse'+i">
+                    <p>{{paciente.nombre}} {{paciente.apellido}}</p>
+                    <div [id]="'collapse'+i" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body ps-0">
+                            <h4 class="bg-primary white">Turnos del paciente</h4>
+                            <div *ngFor='let turno of paciente.turnos'>
+                                <div class="border border-primary ps-1 pe-3 pt-1">
+                                    <div class="row">
+                                        <span class="col-6"><strong class="text-muted">Fecha:</strong>
+                                            {{turno.diaNombre}}
+                                            {{turno.dia}} de {{turno.mes}} {{turno.hora}}hs</span>
+                                        <span class="col-3"></span>
+                                        <span class="col-2 badge badge-size"
+                                            [tooltip]="turno.estado === 'Cancelado' ? turno.motivoCancelacion : turno.estado === 'Rechazado' ? turno.motivoRechazo : null"
+                                            placement="bottom" delay="100" [ngClass]="{
                                         'bg-primary': turno.estado === 'En espera', 
                                         'bg-danger': turno.estado === 'Cancelado' || turno.estado === 'Rechazado', 
                                         'bg-success': turno.estado === 'Aceptado',
                                         'bg-dark': turno.estado === 'Finalizado'
                                     }">Estado: {{turno.estado}}</span>
-                                    <span class="col-1">
-                                        <button class="btn p-0" (click)="exportarAExcel(paciente)" tooltip="Exportar a Excel"
-                                        placement="right" delay="100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="green" class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
-                                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z"/>
-                                              </svg>
-                                        </button>
-                                    </span>
+                                        <span class="col-1">
+                                            <button class="btn p-0" (click)="exportarAExcel(paciente)"
+                                                tooltip="Exportar a Excel" placement="right" delay="100">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="green" class="bi bi-file-earmark-arrow-down-fill"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z" />
+                                                </svg>
+                                            </button>
+                                        </span>
 
-                                </div>
-                                <div class="row align-items-center">
-                                    <span class="col-4"><strong class="text-muted">Especialista:</strong>
-                                        {{turno.especialista.nombre}} {{turno.especialista.apellido}}</span>
-                                    <span class="col-4 text-style d-flex align-items-center text-muted ">
-                                        <img class="img-w pe-2" [src]="turno.especialidad.imgPath">
-                                        <strong>{{turno.especialidad.descripcion}}</strong>
-                                    </span>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <span class="col-4"><strong class="text-muted">Especialista:</strong>
+                                            {{turno.especialista.nombre}} {{turno.especialista.apellido}}</span>
+                                        <span class="col-4 text-style d-flex align-items-center text-muted ">
+                                            <img class="img-w pe-2" [src]="turno.especialidad.imgPath">
+                                            <strong>{{turno.especialidad.descripcion}}</strong>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

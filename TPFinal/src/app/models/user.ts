@@ -28,11 +28,14 @@ export class User {
             }
         ];
     };
-    historiaClinica: {
-        altura,
-        peso,
-        presion,
-        temperatura,
-        items: any[]
-    };
+    historiaClinica = [];
+
+    // [{
+    //     altura,
+    //     peso,
+    //     presion,
+    //     temperatura,
+    //     items: any[]
+    //     especialista;
+    // }] 
 }
