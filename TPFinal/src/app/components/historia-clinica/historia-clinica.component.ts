@@ -25,15 +25,15 @@ export class HistoriaClinicaComponent implements OnInit {
 
   ngOnInit(): void {
     this.historia = JSON.parse(this.rutaActiva.snapshot.params.historia);
+    this.nombre = this.rutaActiva.snapshot.params.nombre;
     this.user = JSON.parse(localStorage.getItem('user'));
     if (this.user.tipo === 'paciente') {
       this.paciente = { ...this.user };
+      this.perfilImg = this.paciente.perfil1;
     } else {
       this.paciente = this.pacientesService.getPaciente();
     }
-    //this.historia = this.paciente.historiaClinica;
-    this.perfilImg = this.paciente.perfil1;
-    this.nombre = `${this.paciente.nombre} ${this.paciente.apellido}`;
+    
   }
 
   async generatePdf() {

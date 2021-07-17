@@ -57,8 +57,8 @@
         <td>
           <button class="btn btn-success w-50 btn-sm" *ngIf='usuario.tipo === "especialista" && !usuario.habilitado'
             (click)="onHabilitarHandler(usuario)">Habilitar</button>
-          <button class="btn btn-primary w-50 btn-sm" *ngIf='usuario.tipo === "paciente" && usuario.historiaClinica'
-            (click)="verHistoria(usuario)">Ver historia clinica</button>
+          <!-- <button class="btn btn-primary w-50 btn-sm" *ngIf='usuario.tipo === "paciente" && usuario.historiaClinica'
+            (click)="verHistoria(usuario)">Ver historia clinica</button> -->
         </td>
       </tr>
     </tbody>

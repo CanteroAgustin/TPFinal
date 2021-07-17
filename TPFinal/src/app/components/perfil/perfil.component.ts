@@ -20,6 +20,6 @@ export class PerfilComponent implements OnInit {
   }
 
   verHistoria(historia) {
-    this.router.navigate(['home', 'historia-clinica', JSON.stringify(historia)]);
+    this.router.navigate(['home', 'historia-clinica', JSON.stringify(historia), this.user.nombre+' '+this.user.apellido]);
   }
 }

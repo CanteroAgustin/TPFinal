@@ -1,5 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Turnos } from 'src/app/models/turnos';
 import { User } from 'src/app/models/user';
@@ -67,7 +68,7 @@ export class MisTurnosComponent implements OnInit {
     calificacionCtrl: this.calificacionCtrl
   });
 
-  constructor(private firestoreService: FirestoreService, private modalService: NgbModal, private formBuilder: FormBuilder, private zone: NgZone) { }
+  constructor(private firestoreService: FirestoreService, private modalService: NgbModal, private formBuilder: FormBuilder, private zone: NgZone, private router: Router) { }
 
   ngOnInit(): void {
     this.firestoreService.getAllUsers().valueChanges().subscribe(response => {
@@ -231,7 +232,7 @@ export class MisTurnosComponent implements OnInit {
     if (!existeParaEspecialista) {
       paciente.historiaClinica.push({ ...this.modalHistoriaFormGroup.value, especialista });
     }
-
+    this.turno.paciente = paciente;
     this.firestoreService.actualizarTurno(this.turno.uid, this.turno);
     this.firestoreService.actualizarUsuarios(paciente.uid, paciente);
     this.modalService.dismissAll();
@@ -255,4 +256,17 @@ export class MisTurnosComponent implements OnInit {
     this.firestoreService.guardarEncuesta(this.turno.encuesta);
     this.modalService.dismissAll();
   }
+
+  verHistoriaPaciente(paciente, especialista) {
+    let historia;
+    paciente.historiaClinica.forEach(h => {
+      if(h.especialista.uid === especialista.uid){
+        historia = h;
+      }
+    });
+    if(historia){
+      this.router.navigate(['home', 'historia-clinica', JSON.stringify(historia), paciente.nombre+' '+paciente.apellido]);
+    }
+  }
+
 }

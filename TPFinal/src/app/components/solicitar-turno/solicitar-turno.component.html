@@ -34,9 +34,7 @@
     *ngIf='!seleccionInicial && !especialidadSeleccionada && usuarioEstaSeleccionado'>
     <div class="col-sm-6 card m-5 card-rounded btn p-0" style="width: 18rem;"
       (click)='onSeleccionInicial("especialidad")'>
-      <img
-        src="assets/especialidad-default.png"
-        class="card-img-top p-5 pb-2 pt-4 h-75">
+      <img src="assets/especialidad-default.png" class="card-img-top p-5 pb-2 pt-4 h-75">
       <div class="card-body">
       </div>
       <div class="card-footer bg-primary">
@@ -45,9 +43,7 @@
     </div>
     <div class="col-sm-6 card m-5 card-rounded btn  p-0" style="width: 18rem;"
       (click)='onSeleccionInicial("especialista")'>
-      <img
-        src="assets/especialista-default.png"
-        class="card-img-top p-5 pb-2 pt-4 h-75">
+      <img src="assets/especialista-default.png" class="card-img-top p-5 pb-2 pt-4 h-75">
       <div class="card-body">
       </div>
       <div class="card-footer bg-primary">
@@ -68,7 +64,8 @@
   </div>
 
   <div class="" *ngIf='seleccionInicial === "especialista"'>
-    <app-listado-especialistas (onEspecialistaSelected)='handleEspecialistaSelected($event)'></app-listado-especialistas>
+    <app-listado-especialistas (onEspecialistaSelected)='handleEspecialistaSelected($event)'>
+    </app-listado-especialistas>
   </div>
 
 </div>

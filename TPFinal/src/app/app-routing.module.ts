@@ -32,7 +32,7 @@ const routes: Routes = [
       },
       { path: 'agenda', component: AgendaComponent },
       { path: 'misTurnos', component: MisTurnosComponent },
-      { path: 'historia-clinica/:historia', component: HistoriaClinicaComponent },
+      { path: 'historia-clinica/:historia/:nombre', component: HistoriaClinicaComponent },
       { path: 'pacientes', component: PacientesComponent }
     ]
   },
